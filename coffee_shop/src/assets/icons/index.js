@@ -1,0 +1,13 @@
+import menu from './menu.png';
+import order from './order.png';
+import stock from './stock.png';
+import staff from './staff.png';
+import doanhthu from './doanhthu.png';
+import bep from './bep.png';
+import logout from './logout.png';
+import search from './search.png';
+import person from './person.png';
+import numbers from './numbers.png';
+import kitchent from './kitchent.png';
+import close from './close.png';
+export { menu, order, stock,  staff, doanhthu, bep,logout, search ,person,numbers, kitchent,close};

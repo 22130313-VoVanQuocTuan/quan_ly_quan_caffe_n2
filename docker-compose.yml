@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0.41-debian
+    container_name: mysql_container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+#  backend:
+#    build: ./backend
+#    container_name: springboot_container
+#    depends_on:
+#      - mysql
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/mydb
+#      SPRING_DATASOURCE_USERNAME: user
+#      SPRING_DATASOURCE_PASSWORD: password
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - app-network
+#
+#  frontend:
+#    build: ./frontend
+#    container_name: react_container
+#    depends_on:
+#      - backend
+#    ports:
+#      - "3000:3000"
+#    networks:
+#      - app-network
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,0 +1,199 @@
+.body{
+    background: #DDBEA9;
+    display: flex;
+    height: 1000px;
+}
+.left{
+    width: 50%;
+}
+.left .coffe {
+    background: white;
+    margin-top: 10px;
+    text-align: center;
+    padding: 10px;
+    margin-left: 5px;
+    
+}
+.left .search{
+display: flex;   
+margin-top: 10px;
+justify-content: center;
+
+}
+.input-container {
+    position: relative;
+    width: 70%;
+  }
+  
+  .input-container .search-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    opacity: 0.6;
+  }
+.input-container input {
+    width: 100%;
+    padding: 10px 40px 10px 10px; /* chừa chỗ bên phải cho icon */
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+
+  .listP {
+    
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Tạo 3 cột có độ rộng bằng nhau */
+    gap: 10px; /* Khoảng cách giữa các phần tử */
+}
+.item {
+    background: #FFFFFF;
+    margin-left: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    width: 100%;
+    height: 159px;
+    cursor: pointer;
+
+
+}
+
+.item img{
+    width: 100%;
+    height: 80%;
+    
+}
+.footer{
+    justify-content: center;
+    display: flex;
+    gap: 30px;
+}
+
+.right{
+    margin-left: 20px;
+    margin-top: 10px;
+   
+}.head1{
+    display: flex;
+    gap: 350px;
+}
+.person{
+    gap: 20px;
+    display: flex;
+
+}
+.head1 img{
+    width: 20px;
+    height: 20px;
+}
+.content2{
+    display: flex;
+    margin-top: 10px;
+}
+#ban{
+    width: 40%;
+    padding: 10px;
+    
+}
+.number{
+    margin-left: 10px;
+    position: relative;;
+    padding: 10px 20px;
+    background: white;
+    border-radius: 50px;
+    display: flex;
+}.number label{
+    font-size: 10px;
+    position: absolute;
+    right: 10px;
+    top: 3px;
+}
+.number img{
+    width: 20px;
+    height: 20px;
+}
+
+.content3 table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .content3 th, .content3 td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+  }
+  
+  .content3 th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .content3 tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .content3 tr:hover {
+    background-color: #e6f7ff;
+    cursor: pointer;
+  }
+  .total{
+    
+    display: flex;
+   justify-content: end;
+     gap: 20%;
+    font-weight: bold;
+    background: #FFFFFF;
+    
+  }
+  #price{
+    margin-right: 75px;
+  }
+  .content4{
+    display: flex;
+    margin-top: 10px;
+    gap: 40px;
+  }
+  .content4 img{
+    width: 20px;
+    height: 20px;
+  }
+  .create, .confirm {
+    background: #662C21;
+    color: #FFFFFF;
+  }.close label{
+    color: #e93b18;
+  }
+
+
+  .modal{
+    display: none;
+    padding: 10px;
+    text-align: center;
+    width: 30%;
+    height: auto;
+    position: absolute;
+    top: 35%;
+    left: 10%;
+    background: #d4a276b0;
+    border: 1px solid #333;
+  }
+  .modal label{
+    font-weight: bold;
+    
+  }
+  .modal input{
+    margin-top: 10px;
+    width: 50%;
+  }
+  .modal .bt{
+      margin-top: 10px;
+    
+  }  .modal .bt button{
+    margin-left: 20px;
+  }

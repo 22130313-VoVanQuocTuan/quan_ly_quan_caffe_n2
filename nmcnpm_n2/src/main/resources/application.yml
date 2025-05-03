@@ -2,6 +2,8 @@ server:
   port: 8080
   servlet:
     context-path: /n2
+    session:
+      timeout: 30m
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/mydb

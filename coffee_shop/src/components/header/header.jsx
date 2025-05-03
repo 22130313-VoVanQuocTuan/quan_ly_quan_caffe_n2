@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './header.css'
 import { menu, order, stock,  staff, doanhthu, bep, logout } from '../../assets/icons';
 import {  useNavigate } from "react-router-dom";
+import { logoutAuth } from '../../api/authApi';
 
 
 const Header = () => {
@@ -10,8 +11,8 @@ const Header = () => {
   
   const handleLogout = () => {
     // Ví dụ: xóa token ở đây
-    localStorage.removeItem("token");
-    navigate("/login"); // Chuyển trang
+    logoutAuth();
+    navigate("/login"); // ;Chuyển trang
   };
   return (
     <div className="header">

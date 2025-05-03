@@ -6,6 +6,7 @@ import com.example.pttkht_n2.dto.user.response.UserResponse;
 import com.example.pttkht_n2.mapper.UserMapper;
 import com.example.pttkht_n2.entity.User;
 import com.example.pttkht_n2.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -44,7 +45,7 @@ public class UserService {
         return userMapper.toUserResponse(user);
          }
 
-    public UserResponse login(LoginRequest request) {
+    public UserResponse login(LoginRequest request, HttpSession session) {
         // Tìm user theo username
         User user = userRepository.findByUsername(request.getUsername());
         if (user == null) {
@@ -62,8 +63,16 @@ public class UserService {
         if (!user.getRole().equals(request.getRole())) {
             throw new RuntimeException("Sai quyền truy cập");
         }
-
+        UserResponse userResponse = userMapper.toUserResponse(user);
+        session.setAttribute("userResponse", userResponse);
         // Trả về UserResponse nếu đăng nhập thành công
-        return userMapper.toUserResponse(user);
+        return userResponse;
+    }
+
+
+    // Lấy thông tin cá nhân
+    public UserResponse getUserInfo(HttpSession session) {
+     UserResponse userResponse = (UserResponse) session.getAttribute("userResponse");
+        return userResponse;
     }
 }

@@ -1,97 +1,171 @@
-import React, { useState } from 'react'
-import Header from './header/header'
-import './home.css'
-import {search, person, numbers, kitchent,close} from '../assets/icons'
+import React, { useEffect, useState } from "react";
+// Import Header và CSS
+import Header from "./header/header";
+import "./home.css";
 
+// Import các icon
+import { search, person, numbers, kitchent, close } from "../assets/icons";
 
-function closeModal(){
+// Import các hàm API
+import { getUserInfo } from "../api/authApi";
+import { addItemToOrder, createOrder, getOrderItems } from "../api/orderAPI";
+import { getProducts } from "../api/productAPI";
+
+// // Đóng modal thêm món
+function closeModal() {
   const modal = document.getElementById("modal");
-  if(modal){
-  modal.style.display = "none";
+  if (modal) {
+    modal.style.display = "none";
   }
 }
-function openMessage(){
-  const modalMess= document.getElementById("modalMessage")
-  if(modalMess){
-    modalMess.style.display= "block"
+// Mở modal nhắc người dùng tạo thực đơn
+function openMessage() {
+  const modalMess = document.getElementById("modalMessage");
+  if (modalMess) {
+    modalMess.style.display = "block";
   }
 }
-function closeModalMessage(){
-  const modalMess= document.getElementById("modalMessage")
-  if(modalMess){
-    modalMess.style.display= "none"
+// Đóng modal tạo thực đơn
+function closeModalMessage() {
+  const modalMess = document.getElementById("modalMessage");
+  if (modalMess) {
+    modalMess.style.display = "none";
   }
 }
-
-
 const Home = () => {
-  const [canChooseItems, setCanChooseItems] = useState(false);
+  // State quản lý
+  const [canChooseItems, setCanChooseItems] = useState(false); // Người dùng có được chọn món chưa?
+  const [userInfo, setUserInfo] = useState(null); // Thông tin người dùng
+  const [dataProduct, setProduct] = useState([]); // Danh sách sản phẩm
+  const [dataOrderItems, setOrderItems] = useState([]); // Danh sách món đã chọn
+  const [productId, setProductId] = useState(null); // ID món khi click
+  const [price, setPrice] = useState(0.0); // Giá món được chọn
+  const [quantity, setQuantity] = useState(1); // Số lượng món muốn chọn
 
-  const openModelConfirm = (namem , price) => {
+  //Xử lý khi click vào món để mở modal
+  const openModelConfirm = (productId, price) => {
+    setProductId(productId);
+    setPrice(price);
+
     if (!canChooseItems) return; // ngăn mở modal nếu chưa nhấn "Tạo thực đơn"
-  
+
     const modal = document.getElementById("modal");
     if (modal) {
       modal.style.display = "block";
     }
-  }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Gọi 3 API song song: user, sản phẩm, đơn hàng
+        const results = await Promise.allSettled([
+          getUserInfo(), // Lấy thông tin người dùng
+          getProducts(), // Lấy danh sách sản phẩm
+          getOrderItems(), // Lấy danh sách món trong đơn
+        ]);
+
+        const [userInfoResult, productsResult, orderItemsResult] = results;
+
+        // Xử lý thông tin người dùng
+        if (userInfoResult.status === "fulfilled") {
+          setUserInfo(userInfoResult.value);
+        }
+
+        // Xử lý danh sách sản phẩm
+        if (productsResult.status === "fulfilled") {
+          setProduct(productsResult.value.data);
+        }
+
+        // Xử lý danh sách món trong đơn
+        if (orderItemsResult.status === "fulfilled") {
+          const orderItems = orderItemsResult.value.data;
+          setOrderItems(orderItems);
+          // Nếu đơn hàng có món => cho phép chọn món tiếp
+          if (orderItems && orderItems.length > 0) {
+            setCanChooseItems(true);
+          }
+        }
+      } catch (error) {
+        console.error("Lỗi không xác định:", error);
+      }
+    };
+
+    fetchData();
+  }, []); // Chỉ chạy 1 lần khi mount
 
   return (
-     <div>
+    <div>
+      {/* Component Header */}
       <Header />
-      <div className='body'>
-        <div className='left'>
-            <div className='coffe'>
-                <span>Coffe</span>
-
+      <div className="body">
+        {/* Phần bên trái: hiển thị danh sách sản phẩm */}
+        <div className="left">
+          <div className="coffe">
+            <span>Coffe</span>
+          </div>
+          {/* Thanh tìm kiếm */}
+          <div className="search">
+            <div className="input-container">
+              <input type="text" placeholder="Nhập tên món" />
+              <img src={search} alt="search" className="search-icon" />
             </div>
-            <div className='search'>
-                <div className='input-container'>
-                    <input type="text" placeholder='Nhập tên món'  />
-                    <img src={search} alt="search" className="search-icon" />
-                </div>
-            </div>
-            <div className="listP">
-              <div  className="item" onClick={() => openModelConfirm("Coffee 4", 20000)}>
-                <img src="https://img.freepik.com/free-photo/delicious-coffee-cup-indoors_23-2150691359.jpg?semt=ais_hybrid&w=740" alt="" />
-                <div className='footer'>
-                  <label htmlFor=""> Coffee 4</label>
-                  <label htmlFor="">20.000đ</label>
+          </div>
+          {/* Danh sách sản phẩm */}
+          <div className="listP">
+            {dataProduct.map((item) => (
+              <div
+                className="item"
+                key={item.id}
+                onClick={() => openModelConfirm(item.id, item.price)} // Mở modal khi click
+              >
+                <img src={item.imageUrl} alt={item.name} />
+                <div className="footer">
+                  <label htmlFor="">{item.name}</label>
+                  <label htmlFor="">
+                    {parseInt(item.price).toLocaleString()}đ
+                  </label>{" "}
+                  {/* Định dạng giá */}
                 </div>
               </div>
-              <div className="item">Item 2</div>
-              <div className="item">Item 3</div>
-              <div className="item">Item 4</div>
-              <div className="item">Item 5</div>
-           </div>
+            ))}
+          </div>
         </div>
-         
-        <div className='right'>
-          <div className='head1'>
-            <div className='addP'>
-              <button>Thêm món mới</button>
+
+        {/* Phần bên phải: thông tin đơn hàng và người dùng */}
+        <div className="right">
+          <div className="head1">
+            <div className="addP">
+              <button>Thêm món mới</button> {/* Nút thêm món mới */}
             </div>
-            <div className='person'>
-              <label htmlFor="">Name</label>
+            {/* Hiển thị thông tin người dùng */}
+            <div className="person">
+              <label htmlFor="">
+                {userInfo?.data?.username
+                  ? `${userInfo.data.username} (${userInfo.data.role})`
+                  : ""}
+              </label>
               <img src={person} alt="person" />
             </div>
           </div>
-          <div className='content2'>
-              <select id='ban' >
-                <option value="">Bàn 1</option>
-                <option value="">Bàn 2</option>
-                <option value="">Bàn 3</option>
-                <option value="">Bàn 4</option>
-                <option value="">Bàn 5</option>
+          {/* Dropdown chọn bàn */}
+          <div className="content2">
+            <select id="ban">
+              <option value="">Bàn 1</option>
+              <option value="">Bàn 2</option>
+              <option value="">Bàn 3</option>
+              <option value="">Bàn 4</option>
+              <option value="">Bàn 5</option>
+            </select>
 
-              </select>
-
-              <div className='number'>
-                  <img src={numbers} alt="" />
-                  <label htmlFor="">5</label>
-              </div>
+            {/* Số lượng khách */}
+            <div className="number">
+              <img src={numbers} alt="" />
+              <label htmlFor="">5</label> {/* số lượng khách */}
+            </div>
           </div>
-          <div className='content3'>
+          {/* Bảng danh sách món trong đơn hàng */}
+          <div className="content3">
             <table>
               <thead>
                 <tr>
@@ -101,60 +175,111 @@ const Home = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Coffe 1</td>
-                  <td>3</td>
-                  <td>40.000 đ</td>
-                </tr>
+                {dataOrderItems && dataOrderItems.length > 0 ? (
+                  dataOrderItems.map((item) => (
+                    <tr key={item.id}>
+                      <td>{item?.productName || ""}</td>
+                      <td>{item?.quantity ?? ""}</td>
+                      <td>
+                        {item?.subtotal != null
+                          ? parseInt(item.subtotal).toLocaleString() + " đ"
+                          : ""}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="3" style={{ textAlign: "center" }}>
+                      Không có món nào
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
-          <div className='total'>
+          {/* Tổng tiền */}
+          <div className="total">
             <label htmlFor="">Tổng tiền: </label>
-            <label htmlFor="" id='price'>40.000đ</label>
+            <label htmlFor="" id="price">
+              40.000đ
+            </label>
           </div>
 
-          <div className='content4'>
-            <button className='create' onClick={()=>{
-              setCanChooseItems(true); // Cho phép chọn món
-              openMessage()}}
-              >Tạo thực đơn</button>
-            <button className='confirm'>Xác nhận thực đơn</button>
-
-            <button className='send'>
-              <img src={kitchent} alt="" />
-              <label htmlFor="">Gửi</label>
-            </button>
-            <button className='close'>
-              <img src={close} alt="" />
-              <label htmlFor="">Hủy bỏ</label>
-            </button>
-
+          {/* Các nút chức năng */}
+          <div className="content4">
+            <div className="section1">
+              <button
+                className="create"
+                onClick={() => {
+                  openMessage();
+                }}
+              >
+                Tạo thực đơn
+              </button>
+              <button className="confirm">Xác nhận thực đơn</button>
+            </div>
+            <div className="section2">
+              <button className="send">
+                <img src={kitchent} alt="" />
+                <label htmlFor="">Gửi</label>
+              </button>
+              <button className="close">
+                <img src={close} alt="" />
+                <label htmlFor="">Hủy bỏ</label>
+              </button>
+            </div>
           </div>
-       
-
         </div>
-        
       </div>
-      
 
-     <div className='modal' id='modal'>
-      <label htmlFor="">Thêm món này vào thực đơn</label>
-      <input type="number" name="" id="" placeholder='số lượng' />
-      <div className='bt'>
-      <button>Đồng ý</button>
-      <button onClick={()=> closeModal()}>Hủy</button>
+      {/* Modal xác nhận món */}
+      <div className="modal" id="modal">
+        <label htmlFor="">Thêm món này vào thực đơn</label>
+        <input
+          type="number"
+          name=""
+          id="number"
+          placeholder="số lượng"
+          onChange={(e) => setQuantity(e.target.value)}
+        />
+        <div className="bt">
+          <button
+            onClick={async () => {
+              addItemToOrder(productId, quantity, price);
+              // Chờ backend xử lý thêm món
+              await new Promise((resolve) => setTimeout(resolve, 200));
+              const response = await getOrderItems(); // Gọi lại API để lấy danh sách mới
+              setOrderItems(response.data);
+              closeModal(); // Đóng modal sau khi thực hiện
+            }}
+          >
+            Đồng ý
+          </button>
+          <button onClick={() => closeModal()}>Hủy</button>
+        </div>
       </div>
-     </div>
-     <div className='modal' id='modalMessage'>
-      <label htmlFor="">Vui lòng chọn món</label>
-      <div className='bt'>
-      <button onClick={()=> closeModalMessage()}>Oke</button>
+
+      {/* Modal thông báo chọn món */}
+      <div className="modal" id="modalMessage">
+        <label htmlFor="">Vui lòng chọn món</label>
+        <div className="bt">
+          <button
+            onClick={async () => {
+              try {
+                await createOrder(); // Gọi API tạo thực đơn
+                setCanChooseItems(true);
+                await getOrderItems();
+                closeModalMessage(); // Đóng modal sau khi tạo xong
+              } catch (error) {
+                console.error("Lỗi tạo thực đơn:", error);
+              }
+            }}
+          >
+            Oke
+          </button>
+        </div>
       </div>
-     </div>
-      
     </div>
-  )
-
-}
-export default Home
+  );
+};
+export default Home;

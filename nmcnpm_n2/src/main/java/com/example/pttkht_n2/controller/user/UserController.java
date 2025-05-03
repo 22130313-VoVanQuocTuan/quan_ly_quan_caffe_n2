@@ -5,6 +5,7 @@ import com.example.pttkht_n2.dto.user.request.LoginRequest;
 import com.example.pttkht_n2.dto.user.request.UserRegisterRequest;
 import com.example.pttkht_n2.dto.user.response.UserResponse;
 import com.example.pttkht_n2.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +28,18 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    APIResponse<UserResponse> loginUser(@RequestBody @Valid LoginRequest request) {
-        return APIResponse.<UserResponse>builder()
-                .data(userService.login(request))
+    APIResponse<UserResponse> loginUser(@RequestBody @Valid LoginRequest request, HttpSession session) {
+          return APIResponse.<UserResponse>builder()
+                .data(userService.login(request, session))
                 .build();
+    }
+    @PostMapping("/logout")
+    public APIResponse<Void> logout(HttpSession session) {
+        session.invalidate();
+        return APIResponse.<Void>builder().msg("Đã logout").build();
+    }
+    @GetMapping("/info")
+    public APIResponse<UserResponse> getUserInfo(HttpSession session) {
+         return APIResponse.<UserResponse>builder().data(userService.getUserInfo(session)).build();
     }
 }

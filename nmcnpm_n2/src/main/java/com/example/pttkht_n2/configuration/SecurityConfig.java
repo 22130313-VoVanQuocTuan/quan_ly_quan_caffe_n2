@@ -17,7 +17,9 @@ import java.util.Arrays;
 @Configuration
 public class SecurityConfig {
     private final String[] PUBLIC_POST_ENDPOINTS = {
-            "/user/**"
+            "/user/**",
+            "/orders/**",
+            "/products/**"
     };
 
     @Bean
@@ -32,6 +34,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // Disable CSRF
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll() // Allow /user POST without auth
+                        .requestMatchers(HttpMethod.GET, PUBLIC_POST_ENDPOINTS).permitAll()
                         .anyRequest().authenticated() // Other requests require authentication
                 )
                 .build();
@@ -40,13 +43,13 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5174")); // Allow frontend origin
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); // Allow specific HTTP methods
-        configuration.setAllowedHeaders(Arrays.asList("*")); // Allow all headers
-        configuration.setAllowCredentials(true); // Allow cookies or credentials if needed
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5174"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); // Cho phép tất cả các phương thức HTTP
+        configuration.setAllowedHeaders(Arrays.asList("*")); // Cho phép tất cả các tiêu đề
+        configuration.setAllowCredentials(true); // Cho phép gửi cookie hoặc thông tin xác thực nếu cần
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // Apply to all endpoints
+        source.registerCorsConfiguration("/**", configuration); // Áp dụng cho tất cả các endpoint
         return source;
     }
 }

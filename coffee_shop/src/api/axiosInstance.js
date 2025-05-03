@@ -7,6 +7,7 @@ const  axiosInstance  = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true //cho phép gửi cookie (chứa session id) sang backend
 });
 
 export default axiosInstance ;

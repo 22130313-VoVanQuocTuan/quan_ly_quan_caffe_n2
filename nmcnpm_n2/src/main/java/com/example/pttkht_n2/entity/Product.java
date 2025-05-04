@@ -22,6 +22,7 @@ public class Product {
     String name;
     String price;
     String category;
+    int quantity;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     List<OrderDetail> orderDetails;

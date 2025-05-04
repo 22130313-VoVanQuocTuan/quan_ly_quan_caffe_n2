@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -59,7 +60,7 @@ public class OrderService {
         Order order = Order.builder()
                 .user(user)
                 .createAt(new Timestamp(System.currentTimeMillis()))
-                .status("NEW")
+                .status("Chưa xác nhận")
                 .totalPrice(0.0)
                 .build();
 
@@ -117,6 +118,30 @@ public List<OrderItemResponse> getOrderItems(HttpSession session) {
 
         return orderItemResponse ;
     }
+
+
+    // Xác nhận thực đơn
+    public String confirmCreateOrder(HttpSession session, double subtotal) {
+        OrderResponse orderResponse = (OrderResponse) session.getAttribute("orderResponse");
+        if (orderResponse == null) {
+            throw new RuntimeException("Chưa tạo thực đơn");
+        }
+
+        Optional<Order> optionalOrder = orderRepository.findById(orderResponse.getId()); //tránh lỗi NullPointerException khi không tìm thấy
+        if (optionalOrder.isEmpty()) {
+            throw new RuntimeException("Không tìm thấy đơn hàng");
+        }
+
+        Order order = optionalOrder.get();
+        order.setStatus("Đã xác nhận");
+        order.setTotalPrice(subtotal);
+
+        orderRepository.save(order);
+
+        return "Xác nhận thành công";
+    }
+
+
 
 }
 

@@ -5,3 +5,8 @@ export const getProducts = async ()=>{
         console.log(response);
         return response.data;
 }
+export const checkProduct = async (productId)=>{
+        const response = await axiosInstance.get(`/products/check/${productId}`);
+        console.log(response);
+        return response.data;
+}

@@ -2,12 +2,14 @@ package com.example.pttkht_n2.controller.user;
 
 
 import com.example.pttkht_n2.dto.user.APIResponse;
+import com.example.pttkht_n2.dto.user.response.ProductQuantityResponse;
 import com.example.pttkht_n2.dto.user.response.ProductResponse;
 import com.example.pttkht_n2.service.ProductService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,4 +28,12 @@ public class ProductController {
         List<ProductResponse> productResponseList = productService.getAllProducts();
         return APIResponse.<List<ProductResponse>>builder().data(productResponseList).build();
     }
+
+    @GetMapping("/check/{productId}")
+    APIResponse<ProductQuantityResponse> checkProduct(@PathVariable int productId) {
+        ProductQuantityResponse productQuantityResponses = productService.checkProduct(productId);
+        return APIResponse.<ProductQuantityResponse>builder().data(productQuantityResponses).build();
+    }
+
+
 }

@@ -8,8 +8,13 @@ import { search, person, numbers, kitchent, close } from "../assets/icons";
 
 // Import các hàm API
 import { getUserInfo } from "../api/authApi";
-import { addItemToOrder, createOrder, getOrderItems } from "../api/orderAPI";
-import { getProducts } from "../api/productAPI";
+import {
+  addItemToOrder,
+  confirmCreateMenu,
+  createOrder,
+  getOrderItems,
+} from "../api/orderAPI";
+import { checkProduct, getProducts } from "../api/productAPI";
 
 // // Đóng modal thêm món
 function closeModal() {
@@ -41,19 +46,7 @@ const Home = () => {
   const [productId, setProductId] = useState(null); // ID món khi click
   const [price, setPrice] = useState(0.0); // Giá món được chọn
   const [quantity, setQuantity] = useState(1); // Số lượng món muốn chọn
-
-  //Xử lý khi click vào món để mở modal
-  const openModelConfirm = (productId, price) => {
-    setProductId(productId);
-    setPrice(price);
-
-    if (!canChooseItems) return; // ngăn mở modal nếu chưa nhấn "Tạo thực đơn"
-
-    const modal = document.getElementById("modal");
-    if (modal) {
-      modal.style.display = "block";
-    }
-  };
+  const [subtotal, setSubtotal] = useState(0.0); // tổng tiền
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,10 +55,9 @@ const Home = () => {
         const results = await Promise.allSettled([
           getUserInfo(), // Lấy thông tin người dùng
           getProducts(), // Lấy danh sách sản phẩm
-          getOrderItems(), // Lấy danh sách món trong đơn
         ]);
 
-        const [userInfoResult, productsResult, orderItemsResult] = results;
+        const [userInfoResult, productsResult] = results;
 
         // Xử lý thông tin người dùng
         if (userInfoResult.status === "fulfilled") {
@@ -76,23 +68,104 @@ const Home = () => {
         if (productsResult.status === "fulfilled") {
           setProduct(productsResult.value.data);
         }
-
-        // Xử lý danh sách món trong đơn
-        if (orderItemsResult.status === "fulfilled") {
-          const orderItems = orderItemsResult.value.data;
-          setOrderItems(orderItems);
-          // Nếu đơn hàng có món => cho phép chọn món tiếp
-          if (orderItems && orderItems.length > 0) {
-            setCanChooseItems(true);
-          }
-        }
       } catch (error) {
         console.error("Lỗi không xác định:", error);
       }
     };
 
     fetchData();
-  }, []); // Chỉ chạy 1 lần khi mount
+  }, []); // chạy lại khi dataOrderItems thay đổi
+  // Lấy danh sách món trong đơn hàng
+  useEffect(() => {
+    const fetchOrderItems = async () => {
+      try {
+        const orderItemsResult = await getOrderItems();
+        const orderItems = orderItemsResult.data;
+        setOrderItems(orderItems);
+
+        if (orderItems && orderItems.length > 0) {
+          setCanChooseItems(true);
+          const total = orderItems.reduce(
+            (acc, item) => acc + (parseInt(item.subtotal) || 0),
+            0
+          );
+          setSubtotal(total);
+        } else {
+          setSubtotal(0);
+        }
+      } catch (error) {
+        console.error("Lỗi khi lấy danh sách món:", error);
+      }
+    };
+
+    fetchOrderItems();
+  }, []); // Chỉ chạy một lần khi component mount
+
+  // Xử lý khi click vào món để mở modal
+  const openModelConfirm = async (productId, price) => {
+    setProductId(productId);
+    setPrice(price);
+
+    if (!canChooseItems) return; // Ngăn mở modal nếu chưa nhấn "Tạo thực đơn"
+
+    try {
+      // Gọi API kiểm tra số lượng sản phẩm
+      const checkResult = await checkProduct(productId); // gọi API kiểm tra số lượng
+      if (checkResult && checkResult.data.available) {
+        // nếu còn
+        const modal = document.getElementById("modal");
+        if (modal) {
+          modal.style.display = "block";
+        }
+      } else {
+        alert("Sản phẩm hiện không khả dụng hoặc hết hàng!"); // Show error message
+      }
+    } catch (error) {
+      console.error("Lỗi khi kiểm tra sản phẩm:", error);
+      alert("Đã có lỗi xảy ra khi kiểm tra sản phẩm!");
+    }
+  };
+
+  // Xử lý xác nhận thực đơn
+  const confirmOrder = async () => {
+    try {
+      const response = await confirmCreateMenu(subtotal);
+      if (response.code === 0) {
+        // Điều chỉnh để khớp với backend
+        alert(response.msg || "Xác nhận thực đơn thành công");
+      } else {
+        alert(response.msg || "Xác nhận thực đơn thất bại");
+      }
+    } catch (error) {
+      console.error("Lỗi khi xác nhận thực đơn:", error);
+      alert(error.msg || "Đã có lỗi xảy ra khi xác nhận thực đơn!");
+    }
+  };
+
+  // Xử lý thêm món vào đơn hàng
+  const handleAddItemToOrder = async () => {
+    try {
+      await addItemToOrder(productId, quantity, price);
+      const response = await getOrderItems(); // Lấy danh sách món mới
+      const orderItems = response.data;
+      setOrderItems(orderItems);
+      if (orderItems && orderItems.length > 0) {
+        setCanChooseItems(true);
+        const total = orderItems.reduce(
+          (acc, item) => acc + (parseInt(item.subtotal) || 0),
+          0
+        );
+        setSubtotal(total);
+      } else {
+        setSubtotal(0);
+      }
+      closeModal();
+      alert("Thêm món thành công");
+    } catch (error) {
+      console.error("Lỗi khi thêm món:", error);
+      alert("Đã có lỗi xảy ra khi thêm món!");
+    }
+  };
 
   return (
     <div>
@@ -200,9 +273,7 @@ const Home = () => {
           {/* Tổng tiền */}
           <div className="total">
             <label htmlFor="">Tổng tiền: </label>
-            <label htmlFor="" id="price">
-              40.000đ
-            </label>
+            <label id="price">{subtotal.toLocaleString()} đ</label>
           </div>
 
           {/* Các nút chức năng */}
@@ -216,7 +287,14 @@ const Home = () => {
               >
                 Tạo thực đơn
               </button>
-              <button className="confirm">Xác nhận thực đơn</button>
+              <button
+                className="confirm"
+                onClick={() => {
+                  confirmOrder();
+                }}
+              >
+                Xác nhận thực đơn
+              </button>
             </div>
             <div className="section2">
               <button className="send">
@@ -243,18 +321,7 @@ const Home = () => {
           onChange={(e) => setQuantity(e.target.value)}
         />
         <div className="bt">
-          <button
-            onClick={async () => {
-              addItemToOrder(productId, quantity, price);
-              // Chờ backend xử lý thêm món
-              await new Promise((resolve) => setTimeout(resolve, 200));
-              const response = await getOrderItems(); // Gọi lại API để lấy danh sách mới
-              setOrderItems(response.data);
-              closeModal(); // Đóng modal sau khi thực hiện
-            }}
-          >
-            Đồng ý
-          </button>
+          <button onClick={handleAddItemToOrder}>Đồng ý</button>
           <button onClick={() => closeModal()}>Hủy</button>
         </div>
       </div>

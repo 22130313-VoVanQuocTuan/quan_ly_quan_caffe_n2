@@ -26,9 +26,10 @@ public class OrderController {
     OrderService orderService;
 
 
+    //1.2.4.1.1 Thực hiện qua method createOrder (HttpSession session).
     @PostMapping
      APIResponse<OrderResponse> createOrder(HttpSession session) {
-        return APIResponse.<OrderResponse>builder()
+        return APIResponse.<OrderResponse>builder() //1.2.4.1.1.1 Hệ thống trả về  một APIResponse (JSON).
                 .data(orderService.createOrder(session))
         .build();
 
@@ -41,13 +42,16 @@ public class OrderController {
                 .build();
 
     }
+    //1.2.8.1.1 Thực hiện qua method addItemToOrder (HttpSesion session,  AddOrderItemRequest request).
     @PostMapping("/order-items")
     APIResponse<OrderItemResponse> addItemToOrder(HttpSession session, @RequestBody AddOrderItemRequest request) {
-        return APIResponse.<OrderItemResponse>builder()
+        return APIResponse.<OrderItemResponse>builder() //1.2.8.1.1.1 Hệ thống trả về một đối tượng APIResponse (JSON).
                 .data(orderService.addItemToOrder(session, request))
                 .build();
 
     }
+
+    //1.2.12.1.1 Thực hiên qua phương thức confirmCreateOrder (HttpSession session, ConfirmOrderRequest request).
     @PutMapping()
     public APIResponse<String> confirmCreateOrder(HttpSession session, @RequestBody ConfirmOrderRequest request) {
         try {
@@ -56,12 +60,12 @@ public class OrderController {
                 throw new IllegalArgumentException("Tổng tiền phải lớn hơn 0");
             }
             String result = orderService.confirmCreateOrder(session, subtotal);
-            return APIResponse.<String>builder()
+            return APIResponse.<String>builder() //1.2.12.1.1.1 Hệ thống trả về một đối tượng APIResponse (JSON).
                     .data(result)
                     .msg("Xác nhận đơn hàng thành công")
                     .build();
         } catch (Exception e) {
-            return APIResponse.<String>builder()
+            return APIResponse.<String>builder() //1.2.12.1.1.1 Hệ thống trả về một đối tượng APIResponse (JSON).
                     .code(9999)
                     .msg("Xác nhận đơn hàng thất bại: " + e.getMessage())
                     .build();

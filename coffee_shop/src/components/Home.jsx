@@ -23,7 +23,7 @@ function closeModal() {
     modal.style.display = "none";
   }
 }
-// Mở modal nhắc người dùng tạo thực đơn
+// 1.2.3 Hiển thị thông báo chọn món 
 function openMessage() {
   const modalMess = document.getElementById("modalMessage");
   if (modalMess) {
@@ -110,15 +110,15 @@ const Home = () => {
 
     try {
       // Gọi API kiểm tra số lượng sản phẩm
-      const checkResult = await checkProduct(productId); // gọi API kiểm tra số lượng
+      const checkResult = await checkProduct(productId); // gọi API kiểm tra số lượng //1.2.6.1 Yêu cầu kiểm tra món
       if (checkResult && checkResult.data.available) {
         // nếu còn
         const modal = document.getElementById("modal");
         if (modal) {
-          modal.style.display = "block";
+          modal.style.display = "block";  //1.2.6.1.1.1.2 mở form xác nhận nếu còn món
         }
       } else {
-        alert("Sản phẩm hiện không khả dụng hoặc hết hàng!"); // Show error message
+        alert("Món không tồn tại trong menu."); //  1.2.6.2.1.1.1.1 Giao diện hiển thị thông báo nếu hết món.
       }
     } catch (error) {
       console.error("Lỗi khi kiểm tra sản phẩm:", error);
@@ -129,12 +129,12 @@ const Home = () => {
   // Xử lý xác nhận thực đơn
   const confirmOrder = async () => {
     try {
-      const response = await confirmCreateMenu(subtotal);
+      const response = await confirmCreateMenu(subtotal); //1.2.12.1 Yêu cầu lưu thực đơn
       if (response.code === 0) {
         // Điều chỉnh để khớp với backend
-        alert(response.msg || "Xác nhận thực đơn thành công");
+        alert(response.msg || "Xác nhận thực đơn thành công"); //1.2.12.1.1.1.1 Giao diện chứa thông báo(Thành công / thất bại)
       } else {
-        alert(response.msg || "Xác nhận thực đơn thất bại");
+        alert(response.msg || "Xác nhận thực đơn thất bại");// 1.2.12.1.1.1.1 Giao diện chứa thông báo(Thành công / thất bại)
       }
     } catch (error) {
       console.error("Lỗi khi xác nhận thực đơn:", error);
@@ -145,7 +145,7 @@ const Home = () => {
   // Xử lý thêm món vào đơn hàng
   const handleAddItemToOrder = async () => {
     try {
-      await addItemToOrder(productId, quantity, price);
+      await addItemToOrder(productId, quantity, price);  //1.2.8.1 Yêu cầu thêm món
       const response = await getOrderItems(); // Lấy danh sách món mới
       const orderItems = response.data;
       setOrderItems(orderItems);
@@ -155,14 +155,14 @@ const Home = () => {
           (acc, item) => acc + (parseInt(item.subtotal) || 0),
           0
         );
-        setSubtotal(total);
+        setSubtotal(total);   //1.2.10. Cập nhật giá tiền
       } else {
         setSubtotal(0);
       }
-      closeModal();
-      alert("Thêm món thành công");
+      closeModal(); //1.2.9.1 Đóng form xác nhận
+      alert("Thêm món thành công"); //1.2.8.1.1.1.1 giao diện chứa thông báo(thành công/thất bại)
     } catch (error) {
-      console.error("Lỗi khi thêm món:", error);
+      console.error("Lỗi khi thêm món:", error); 
       alert("Đã có lỗi xảy ra khi thêm món!");
     }
   };
@@ -177,6 +177,7 @@ const Home = () => {
           <div className="coffe">
             <span>Coffe</span>
           </div>
+          {/*1.2.5. Tìm kiếm và chọn món */}
           {/* Thanh tìm kiếm */}
           <div className="search">
             <div className="input-container">
@@ -190,7 +191,7 @@ const Home = () => {
               <div
                 className="item"
                 key={item.id}
-                onClick={() => openModelConfirm(item.id, item.price)} // Mở modal khi click
+                onClick={() => openModelConfirm(item.id, item.price)} // 1.2.6. Chọn món
               >
                 <img src={item.imageUrl} alt={item.name} />
                 <div className="footer">
@@ -222,6 +223,7 @@ const Home = () => {
             </div>
           </div>
           {/* Dropdown chọn bàn */}
+          {/*1.2.13 Chọn bàn gửi yều cầu chế biến, in hóa đơn */}
           <div className="content2">
             <select id="ban">
               <option value="">Bàn 1</option>
@@ -238,6 +240,7 @@ const Home = () => {
             </div>
           </div>
           {/* Bảng danh sách món trong đơn hàng */}
+          {/*1.2.4.1.1.1.1 Giao diện chứa thực đơn vừa tạo. */}
           <div className="content3">
             <table>
               <thead>
@@ -279,6 +282,7 @@ const Home = () => {
           {/* Các nút chức năng */}
           <div className="content4">
             <div className="section1">
+            {/*1.2.2 Nhấn vào  tạo thực đơn*/}
               <button
                 className="create"
                 onClick={() => {
@@ -287,6 +291,8 @@ const Home = () => {
               >
                 Tạo thực đơn
               </button>
+
+              {/*1.2.12 Nhấn xác nhận thực đơn */}
               <button
                 className="confirm"
                 onClick={() => {
@@ -313,6 +319,7 @@ const Home = () => {
       {/* Modal xác nhận món */}
       <div className="modal" id="modal">
         <label htmlFor="">Thêm món này vào thực đơn</label>
+        {/*1.2.7 Nhập số lượng */}
         <input
           type="number"
           name=""
@@ -321,8 +328,8 @@ const Home = () => {
           onChange={(e) => setQuantity(e.target.value)}
         />
         <div className="bt">
-          <button onClick={handleAddItemToOrder}>Đồng ý</button>
-          <button onClick={() => closeModal()}>Hủy</button>
+          <button onClick={handleAddItemToOrder}>Đồng ý</button> {/*1.2.8  Đồng ý*/}
+          <button onClick={() => closeModal()}>Hủy</button> {/*1.2.9 Hủy */}
         </div>
       </div>
 
@@ -330,10 +337,11 @@ const Home = () => {
       <div className="modal" id="modalMessage">
         <label htmlFor="">Vui lòng chọn món</label>
         <div className="bt">
+          {/*1.2.4.Nhấn ok trên thông báo*/}
           <button
             onClick={async () => {
               try {
-                await createOrder(); // Gọi API tạo thực đơn
+                await createOrder(); // Gọi API tạo thực đơn/ 1.2.4.1 Yêu cầu tạo thực đơn
                 setCanChooseItems(true);
                 await getOrderItems();
                 closeModalMessage(); // Đóng modal sau khi tạo xong

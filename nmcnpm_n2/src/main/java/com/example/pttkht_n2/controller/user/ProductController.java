@@ -29,10 +29,11 @@ public class ProductController {
         return APIResponse.<List<ProductResponse>>builder().data(productResponseList).build();
     }
 
+    //1.2.6.1.1 Thực hiện qua method checkProduct(int productId).
     @GetMapping("/check/{productId}")
     APIResponse<ProductQuantityResponse> checkProduct(@PathVariable int productId) {
         ProductQuantityResponse productQuantityResponses = productService.checkProduct(productId);
-        return APIResponse.<ProductQuantityResponse>builder().data(productQuantityResponses).build();
+        return APIResponse.<ProductQuantityResponse>builder().data(productQuantityResponses).build(); //1.2.6.1.1.1 Hệ thống trả về một đối tượng APIResponse (JSON).
     }
 
 

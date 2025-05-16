@@ -8,6 +8,10 @@ import { search, person, numbers, kitchent, close } from "../assets/icons";
 
 // Import các hàm API
 import { getUserInfo } from "../service/authApi";
+
+// Import useNavigate từ react-router-dom
+import { useNavigate } from "react-router-dom";
+
 import {
   addItemToOrder,
   confirmCreateMenu,
@@ -47,6 +51,8 @@ const Menu = () => {
   const [price, setPrice] = useState(0.0); // Giá món được chọn
   const [quantity, setQuantity] = useState(1); // Số lượng món muốn chọn
   const [subtotal, setSubtotal] = useState(0.0); // tổng tiền
+  const navigate = useNavigate(); // Dùng để điều hướng đến các trang khác
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -216,7 +222,7 @@ const Menu = () => {
         <div className="right">
           <div className="head1">
             <div className="addP">
-              <button>Thêm món mới</button> {/* Nút thêm món mới */}
+              <button onClick={() => navigate("/add-item")}>Thêm món mới</button> {/* Nút thêm món mới */}
             </div>
             {/* Hiển thị thông tin người dùng */}
             <div className="person">

@@ -43,6 +43,14 @@
     margin-bottom: 16px;
 }
 
+.additem-row-1col {
+    display: flex;
+}
+
+.additem-label-1col{
+    margin-top: 12px;
+}
+
 .additem-row-3col,
 .additem-row-2col {
     display: flex;

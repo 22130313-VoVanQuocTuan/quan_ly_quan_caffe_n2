@@ -1,15 +1,16 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { FaRegSave } from "react-icons/fa";
 import { HiMiniXMark } from "react-icons/hi2";
 import { IoIosHelp } from "react-icons/io";
 import "./AddItem.css";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { addProduct } from "../service/foodApi";
 
-// Thoong so cua cac nguyen lieu
+// Thông số của các nguyên liệu
 const initialIngredient = { code: "", name: "", quantity: "", unit: "" };
 
-// form them mon
+// form thêm món
 const AddItem = () => {
     const [form, setForm] = useState({
         type: "drink",
@@ -17,73 +18,68 @@ const AddItem = () => {
         code: "",
         price: "",
         menuGroup: "",
-        unit: "",
-        processAt: "",
-        ingredients:[{...initialIngredient}],
+        quantity: "",
+        ingredients: [{ ...initialIngredient }],
     });
-    // Hinhf anh
+
     const [image, setImagePreview] = useState(null);
 
-     // Handle input change
     const handleChange = (e) => {
-        const {name, value}  = e.target;
-        setForm({... form, [name]: value});
+        const { name, value } = e.target;
+        setForm({ ...form, [name]: value });
     };
 
-    //handle radio change
     const handleRadioChange = (e) => {
-        setForm({...form, type: e.target.value});
+        setForm({ ...form, type: e.target.value });
     };
 
-    //handle images upload
     const handleImageChange = (e) => {
         const file = e.target.files[0];
-        if(file) {
-            setForm({...form, image: file});
+        if (file) {
+            setForm({ ...form, image: file });
             setImagePreview(URL.createObjectURL(file));
         }
     };
 
-    //handle ingredient change
-    const handleIngredientChange = (index, e) => {
-        const {name , value} = e.target;
-        const newIngredients = [...form.ingredients];
-        newIngredients[index][name] = value;
-        setForm({...form, ingredients: newIngredients});
-    };
-
-    //preview image
-       const handleImageClick = () => {
+    const handleImageClick = () => {
         document.getElementById("image-upload").click();
     };
 
+    const handleIngredientChange = (index, e) => {
+        const { name, value } = e.target;
+        const newIngredients = [...form.ingredients];
+        newIngredients[index][name] = value;
+        setForm({ ...form, ingredients: newIngredients });
+    };
 
-
-    //add new ingredient
     const addIngredient = () => {
-        setForm({...form, ingredients: [...form.ingredients, {...initialIngredient}]});
+        setForm({ ...form, ingredients: [...form.ingredients, { ...initialIngredient }] });
     };
 
-    //remove ingredient
     const removeIngredient = (index) => {
-    const newIngredients = form.ingredients.filter((_, i) => i !== index);
-    setForm({...form, ingredients: newIngredients});
+        const newIngredients = form.ingredients.filter((_, i) => i !== index);
+        setForm({ ...form, ingredients: newIngredients });
     };
 
-    // remmove image
     const removeImage = () => {
-        setForm({...form, image: ""});
+        setForm({ ...form, image: "" });
         setImagePreview(null);
     };
 
-    // submit form
-    const handleSubmit = (e) => {
+    // Gửi dữ liệu và hiện toast
+    // 5.1.1.10 Khi thành công sẽ trả về message "Thêm món thành công!" 
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
-       alert("Đã lưu thành công");
-    }
+        try {
+            await addProduct(form);
+            toast.success("Thêm món thành công!");
+        } catch (error) {
+            console.error("Lỗi thêm món:", error);
+            toast.error("Thêm món thất bại!");
+        }
+    };
 
-    // handle form reset
+    // 
     return (
         <div className="additem-container">
             <div className="header-item">
@@ -91,39 +87,42 @@ const AddItem = () => {
             </div>
             <form className="additem-form" onSubmit={handleSubmit}>
                 <div className="additem-form-left">
-                    <div className="additem-row">
-                        <label className="additem-label">Loại</label>
+                    <div className="additem-row additem-row-1col">
+                        <label className="additem-label additem-label-1col">Loại</label>
                         <div className="additem-radio-group">
                             <label className="additem-radio-label">
-                                <input type="radio" name="type" value="drink" checked={form.type === "drink"} onChange={handleRadioChange}/>
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="drink"
+                                    checked={form.type === "drink"}
+                                    onChange={handleRadioChange}
+                                />
                                 Đồ uống
-                            </label>
-                            <label className="additem-radio-label">
-                                <input type="radio" name="type" value="food" checked={form.type === "food"} onChange={handleRadioChange}/>
-                                Món ăn
                             </label>
                         </div>
                     </div>
+
                     <div className="additem-row additem-row-3col">
                         <div>
-                            <label htmlFor="" className="additem-label">Tên món <span className="text-danger">(*)</span></label>
-                            <input type="text" name="name" value={form.name} onChange={handleChange} required className="additem-input"/>
-                        </div>
-                         <div>
-                            <label htmlFor="" className="additem-label">Mã món <span className="text-danger">(*)</span></label>
-                            <input type="text" name="code" value={form.code} onChange={handleChange} required className="additem-input"/>
+                            <label className="additem-label">Mã món <span className="text-danger">(*)</span></label>
+                            <input type="text" name="code" value={form.code} onChange={handleChange} required className="additem-input" />
                         </div>
                         <div>
-                            <label htmlFor="" className="additem-label">Giá bán <span className="text-danger">(*)</span></label>
-                            <input type="text" name="price" value={form.price} onChange={handleChange} required className="additem-input"/>
+                            <label className="additem-label">Tên món <span className="text-danger">(*)</span></label>
+                            <input type="text" name="name" value={form.name} onChange={handleChange} required className="additem-input" />
                         </div>
-                    </div>  
+                        <div>
+                            <label className="additem-label">Giá bán <span className="text-danger">(*)</span></label>
+                            <input type="text" name="price" value={form.price} onChange={handleChange} required className="additem-input" />
+                        </div>
+                    </div>
 
                     <div className="additem-row additem-row-2col">
                         <div>
-                            <label htmlFor="" className="additem-label">Nhóm thực đơn</label>
+                            <label className="additem-label">Nhóm thực đơn</label>
                             <div className="additem-select-group">
-                                <select name="menuGroup" value={form.menuGroup} onChange={handleChange} className="additem-input">
+                                <select name="menuGroup" value={form.menuGroup} onChange={handleChange} className="additem-input" required>
                                     <option value="">Chọn Nhóm</option>
                                     <option value="Trà">Trà</option>
                                     <option value="Cà phê">Cà phê</option>
@@ -132,38 +131,29 @@ const AddItem = () => {
                                 <button type="button" className="additem-btn-add btn button">+</button>
                             </div>
                         </div>
-
                         <div>
-                            <label htmlFor="" className="additem-label" >Đơn vị tính <span className="required text-danger" >(*)</span></label>
+                            <label className="additem-label">Đơn vị tính <span className="text-danger">(*)</span></label>
                             <div className="additem-select-group">
-                                <select name="unit" value={form.unit} onChange={handleChange} required className="additem-input">\
-                                    <option value="">Chọn đơn vị</option>
-                                    <option value="Ly">Ly</option>
-                                    <option value="Cốc">Cốc</option>
-                                </select>
-                                <button type="button" className="additem-btn-add btn button">+</button> 
+                                <input type="text" name="quantity" value={form.quantity} onChange={handleChange} required className="additem-input" />
+                                <button type="button" className="additem-btn-add btn button">+</button>
                             </div>
                         </div>
                     </div>
 
-                    <div className="additem-row">
-                        <label htmlFor="" className="additem-label">Chế biến tại</label>
+                    {/* <div className="additem-row">
+                        <label className="additem-label">Chế biến tại</label>
                         <div className="additem-select-group">
                             <select name="processAt" value={form.processAt} onChange={handleChange} className="additem-input">
                                 <option value="">Chọn nơi chế biến</option>
                                 <option value="Quầy bar">Quầy bar</option>
-                                <option value="Bếp"> Bếp</option>
+                                <option value="Bếp">Bếp</option>
                             </select>
-                            <button type="button" className="adđitem-btn-add">+</button>
+                            <button type="button" className="additem-btn-add">+</button>
                         </div>
-                    </div>
-
+                    </div> */}
 
                     <div className="additem-ingredient-section">
-                        <label htmlFor="" className="additem-label">
-                            Đinh lương nguyên vật liệu 
-                            <span className="required">*</span>
-                        </label>
+                        <label className="additem-label">Định lượng nguyên vật liệu <span className="required">*</span></label>
                         <table className="additem-table">
                             <thead>
                                 <tr>
@@ -177,21 +167,10 @@ const AddItem = () => {
                             <tbody>
                                 {form.ingredients.map((ing, idx) => (
                                     <tr key={idx}>
-                                        <td>
-                                            <input type="text" name="code" value={ing.code} onChange={e => handleIngredientChange(idx, e)} className="additem-input"/>
-                                        </td>
-
-                                        <td>
-                                            <input type="text" name="name" value={ing.name} onChange={e => handleIngredientChange(idx, e)} className="additem-input"/>
-                                        </td>
-                                        <td>
-                                            <input type="number" name="quantity" value={ing.quantity} onChange={e => handleIngredientChange(idx, e)} className="additem-input"/>
-                                        </td>
-
-                                        <td>
-                                           <input type="text" name="unit" value={ing.unit} onChange={e => handleIngredientChange(idx, e)} className="additem-input"/>
-                                        </td>
-
+                                        <td><input type="text" name="code" value={ing.code} onChange={e => handleIngredientChange(idx, e)} className="additem-input" /></td>
+                                        <td><input type="text" name="name" value={ing.name} onChange={e => handleIngredientChange(idx, e)} className="additem-input" /></td>
+                                        <td><input type="number" name="quantity" value={ing.quantity} onChange={e => handleIngredientChange(idx, e)} className="additem-input" /></td>
+                                        <td><input type="text" name="unit" value={ing.unit} onChange={e => handleIngredientChange(idx, e)} className="additem-input" /></td>
                                         <td>
                                             {form.ingredients.length > 1 && (
                                                 <button type="button" className="additem-btn-remove" onClick={() => removeIngredient(idx)}>X</button>
@@ -210,37 +189,36 @@ const AddItem = () => {
                     <div className="additem-image-box">
                         {image ? (
                             <img src={image} alt="preview" className="additem-image-preview" />
-                        ):(
+                        ) : (
                             <span className="additem-image-placeholder">Chọn ảnh đại diện</span>
                         )}
                     </div>
-                    <input type="file" accept="image/*" onChange={handleImageChange} style={{display:"none"}} id="image-upload"/>
+                    <input type="file" accept="image/*" onChange={handleImageChange} style={{ display: "none" }} id="image-upload" />
                     <div className="additem-image-actions">
                         <label htmlFor="image-upload">
-                            <button type="button" className="additem-btn-image" onClick={(handleImageClick)}>Chọn ảnh</button>
+                            <button type="button" className="additem-btn-image" onClick={handleImageClick}>Chọn ảnh</button>
                         </label>
                         {image && (
                             <button type="button" className="additem-btn-remove" onClick={removeImage}>X</button>
                         )}
                     </div>
-                    <div className="additem-image-note">
-                        Chọn các ảnh có định dạng (.pg, .jpeg, .png, .webp)
-                    </div>
+                    <div className="additem-image-note">Chọn các ảnh có định dạng (.jpg, .jpeg, .png, .webp)</div>
                 </div>
             </form>
 
             <div className="additem-footer">
-                <button type="submit" className="additem-btn-save" onClick={handleSubmit}>
-                    <span role="img" aria-label="save"><FaRegSave/></span> Lưu
+                <button type="submit" onClick={handleSubmit} className="additem-btn-save">
+                    <FaRegSave /> Lưu
                 </button>
                 <button type="button" className="additem-btn-cancel" onClick={() => window.history.back()}>
-                    <span role="img" aria-label="cancel"><HiMiniXMark/></span> Hủy bỏ
+                    <HiMiniXMark /> Hủy bỏ
                 </button>
                 <button type="button" className="additem-btn-help">
-                    <span role="img" aria-label="help"><IoIosHelp/></span> Trợ giúp
+                    <IoIosHelp /> Trợ giúp
                 </button>
             </div>
         </div>
-    )
+    );
 };
+
 export default AddItem;

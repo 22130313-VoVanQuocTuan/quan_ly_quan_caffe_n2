@@ -222,6 +222,7 @@ const Menu = () => {
         <div className="right">
           <div className="head1">
             <div className="addP">
+              {/* 5.1.1.4. Chọn nút Thêm món mới ở menu  */}
               <button onClick={() => navigate("/add-item")}>Thêm món mới</button> {/* Nút thêm món mới */}
             </div>
             {/* Hiển thị thông tin người dùng */}

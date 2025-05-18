@@ -1,5 +1,6 @@
 package com.example.pttkht_n2.entity;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -12,21 +13,17 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "product")
-public class Product {
+@Table(name = "ingredient")
+
+public class Ingredient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    String imageUrl;
+    String code;
     String name;
-    String price;
-    String category;
     int quantity;
+    String unit;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    List<OrderItem> orderItems;
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL)
     List<ProductIngredient> productIngredients;
+
 }

@@ -1,0 +1,275 @@
+.additem-container {
+    background: #5a2c1d;
+    color: #fff;
+    padding: 32px;
+    border-radius: 12px;
+    max-width: 1000px;
+    margin: 40px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.additem-title {
+    margin-top: 0;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+}
+
+.additem-form {
+    display: flex;
+    gap: 24px;
+}
+
+.additem-form-left {
+    flex: 2;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.additem-form-right {
+    flex: 1;
+    background: #fff;
+    color: #333;
+    border-radius: 8px;
+    padding: 16px;
+    min-width: 260px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.additem-row {
+    margin-bottom: 16px;
+}
+
+.additem-row-1col {
+    display: flex;
+}
+
+.additem-label-1col{
+    margin-top: 12px;
+}
+
+.additem-row-3col,
+.additem-row-2col {
+    display: flex;
+    gap: 12px;
+}
+
+.additem-label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+    color: #fff;
+}
+
+/* Dành riêng cho hàng chứa radio button */
+.additem-row-radio {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.additem-radio-group {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.additem-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: normal;
+    color: #fff;
+}
+
+.additem-required {
+    color: #ff4d4f;
+}
+
+.additem-input {
+    width: 100%;
+    padding: 10px;
+    background: #fdfdfd;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333;
+}
+
+.additem-select-group {
+    display: flex;
+    gap: 6px;
+}
+
+.additem-btn-add {
+    padding: 0 10px;
+    background: #c7a17a;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.additem-ingredient-section {
+    margin-top: 24px;
+}
+
+.additem-table {
+    width: 100%;
+    background: #fff;
+    color: #333;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+.additem-table th,
+.additem-table td {
+    border: 1px solid #ccc;
+    padding: 8px 6px;
+    text-align: left;
+}
+
+.additem-btn-remove {
+    color: red;
+    background: none;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.additem-btn-addrow {
+    margin-top: 12px;
+    background: #c7a17a;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.additem-image-title {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #222;
+}
+
+.additem-image-box {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    background: #f7f7f7;
+}
+
+.additem-image-preview {
+    max-height: 170px;
+    max-width: 100%;
+    border-radius: 4px;
+}
+
+.additem-image-placeholder {
+    color: #999;
+    font-size: 14px;
+}
+
+.additem-image-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.additem-btn-image {
+    background: #c7a17a;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.additem-image-note {
+    font-size: 12px;
+    color: #888;
+    margin-top: 8px;
+    text-align: center;
+}
+
+.additem-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 32px;
+}
+
+.additem-btn-save {
+    background: #c7a17a;
+    color: #fff;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.additem-btn-cancel,
+.additem-btn-help {
+    background: #fff;
+    color: #6d2b1c;
+    border: 1px solid #6d2b1c;
+    padding: 10px 28px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .additem-form {
+        flex-direction: column;
+    }
+
+    .additem-form-left,
+    .additem-form-right {
+        width: 100%;
+    }
+
+    .additem-row.additem-row-3col,
+    .additem-row.additem-row-2col {
+        flex-direction: column;
+    }
+
+    .additem-row > div {
+        width: 100%;
+    }
+
+    .addtem-col2 {
+        flex-direction: column;
+    }
+
+    .additem-btn-save,
+    .additem-btn-cancel,
+    .additem-btn-help {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .additem-row-radio {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .additem-radio-group {
+        flex-wrap: wrap;
+    }
+}

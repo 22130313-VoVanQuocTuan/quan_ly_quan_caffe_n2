@@ -36,13 +36,16 @@ public class OrderController {
         .build();
 
     }
+    //1.2.3.4.1 Thực hiện lấy danh sách món tỏng thực đơn qua method getOrderItem(HttpSession session) trong OrderController (Backend). 
     @GetMapping
     APIResponse<List<OrderItemResponse>> getOrderItems(HttpSession session) {
+        //1.2.3.4.1.1 OrderController gọi OrderService.getOrderItems(HttpSession session) để xử lý logic nghiệp vụ. 
         List<OrderItemResponse> orderItemResponses = orderService.getOrderItems(session);
+        //1.2.3.4.1.2 OrderController trả về một APIResponse (JSON) chứa dữ liệu cho Frontend.
         return APIResponse.<List<OrderItemResponse>>builder()
                 .data(orderItemResponses)
                 .build();
-
+    
     }
     //1.2.7.1.1 Thực hiện qua method addItemToOrder(HttpSession session, AddOrderItemRequest request) trong OrderController (Backend).
     @PostMapping("/order-items")

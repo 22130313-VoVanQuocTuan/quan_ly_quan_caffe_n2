@@ -1,5 +1,6 @@
 package com.example.pttkht_n2.service;
 
+import com.example.pttkht_n2.controller.user.OrderController;
 import com.example.pttkht_n2.dto.user.request.AddOrderItemRequest;
 import com.example.pttkht_n2.dto.user.response.OrderItemResponse;
 import com.example.pttkht_n2.dto.user.response.OrderResponse;
@@ -85,11 +86,12 @@ public List<OrderItemResponse> getOrderItems(HttpSession session) {
         return orderItemResponses; // Không có order trong session => trả danh sách rỗng
     }
 
-    // Gọi repository để lấy các món theo orderId
+    // 1.2.3.4.1.1.1 OrderService gọi OrderRepository. findAllByOrderId(orderId) để lưu dữ liệu vào cơ sở dữ liệu qua Hibernate. 
     List<OrderItem> orderItem = orderItemRepository.findAllByOrderId(orderResponse.getId());
     orderItemResponses = orderItemMapper.toOrderItemResponse(orderItem);
 
 
+    //1.2.3.4.1.1.2 OrderService xử lý dữ liệu và trả về kết quả (orderItemResponses) cho OrderController.
     return orderItemResponses;
 }
 

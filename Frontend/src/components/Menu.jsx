@@ -237,7 +237,7 @@ const Menu = () => {
           </div>
             
           {/* Bảng danh sách món trong đơn hàng */}
-          {/*1.2.3.3 Giao diện menu hiển thị thực đơn vừa được tạo.*/}
+          {/*1.2.3.6 Giao diện menu hiển thị thực đơn vừa được tạo.*/}
           <div className="content3">
             <table>
               <thead>
@@ -279,7 +279,7 @@ const Menu = () => {
           {/* Các nút chức năng */}
           <div className="content4">
             <div className="section1">
-            {/*1.2.1	Phục vụ nhấn tạo thực đơn ở giao diện menu phía frontend.*/}
+            {/*1.2.1 Phục vụ nhấn tạo thực đơn ở giao diện menu phía frontend.*/}
               <button
                 className="create"
                 onClick={() => {
@@ -335,14 +335,14 @@ const Menu = () => {
       <div className="modal" id="modalMessage">
         <label htmlFor="">Vui lòng chọn món</label>
         <div className="bt">
-          {/*1.2.3	Phục vụ nhấn ok trên thông báo để tạo thực đơn*/}
+          {/*1.2.3 Phục vụ nhấn ok trên thông báo để tạo thực đơn*/}
           <button
             onClick={async () => {
               try {
                 await createOrder(); // 1.2.3.1 Yêu cầu hệ thống tạo thực đơn bằng cách gọi api tạo thực đơn createOrder() được định nghĩa ở OrderAPI
-                setCanChooseItems(true);
-                await getOrderItems();
-                closeModalMessage(); // Đóng modal sau khi tạo xong
+                setCanChooseItems(true); //1.2.3.3 Giao diện menu cho phép chọn món khi đã tạo đưuọc thực đơn
+                await getOrderItems(); //1.2.3.4 Hệ thống gọi API getOrderItem() để hiển thị món trong thực đơn khi có món đã được thêm vào thực đơn.
+                closeModalMessage(); // 1.2.3.5 Giao diện menu đóng modal thông báo chọn món
               } catch (error) {
                 console.error("Lỗi tạo thực đơn:", error);
               }

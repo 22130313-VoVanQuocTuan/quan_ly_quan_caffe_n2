@@ -2,6 +2,7 @@ package com.example.pttkht_n2.controller.user;
 
 
 import com.example.pttkht_n2.dto.user.APIResponse;
+import com.example.pttkht_n2.dto.user.request.ProductCreateRequest;
 import com.example.pttkht_n2.dto.user.response.ProductQuantityResponse;
 import com.example.pttkht_n2.dto.user.response.ProductResponse;
 import com.example.pttkht_n2.service.ProductService;
@@ -35,9 +36,23 @@ public class ProductController {
         return APIResponse.<ProductQuantityResponse>builder().data(productQuantityResponses).build();
     }
 
+
     @GetMapping("/search")
     APIResponse<List<ProductResponse>> searchProduct(@RequestParam("name") String productName) {
         List<ProductResponse> productResponseList = productService.searchProduct(productName);
         return APIResponse.<List<ProductResponse>>builder().data(productResponseList).build();
     }
+
+    //5.1.1.11 Thưc hiện thêm món ăn qua method addProduct(ProductCreateRequest request) trong ProductController (Backend).
+    @PostMapping("/add-item")
+    APIResponse<String> addProduct(@RequestBody ProductCreateRequest request) {
+        System.out.println("Tên món: " + request.getName());
+        System.out.println("Nguyên liệu: " + request.getIngredients());
+        productService.addProduct(request);
+        return APIResponse.<String>builder().msg("Thêm sản phẩm thành công").build();
+    }
+
+
+
+
 }

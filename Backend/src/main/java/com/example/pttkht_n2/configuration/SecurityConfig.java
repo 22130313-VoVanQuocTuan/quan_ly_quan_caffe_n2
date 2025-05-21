@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll() // Allow /user POST without auth
                         .requestMatchers(HttpMethod.GET, PUBLIC_POST_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.PUT, PUBLIC_POST_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.DELETE, PUBLIC_POST_ENDPOINTS).permitAll()
                         .anyRequest().authenticated() // Other requests require authentication
                 )
                 .build();

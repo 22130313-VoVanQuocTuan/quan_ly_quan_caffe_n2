@@ -149,5 +149,39 @@ public List<OrderItemResponse> getOrderItems(HttpSession session) {
 
 
 
+    // Hủy bỏ  món trong thực đơn
+    public String deleteProductOnOrder(HttpSession session, int productId) {
+        String message =null;
+        OrderResponse orderResponse = (OrderResponse) session.getAttribute("orderResponse");
+        if (orderResponse == null) {
+            message =  "Thực đơn không tồn tại ";
+        }
+        try{
+            orderItemRepository.deleteById(productId);
+            message =  "Bỏ món thành công";
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return    message;
+    }
+
+
+    //xóa thực đơn
+    public String deleteOrder(HttpSession session) {
+
+        String message = null;
+        OrderResponse orderResponse = (OrderResponse) session.getAttribute("orderResponse");
+        if (orderResponse == null) {
+            message = "Thực đơn không tồn tại";
+
+        }
+        try {
+            orderRepository.deleteById(orderResponse.getId());
+            message = "Xóa thực đơn thành công";
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return    message;
+    }
 }
 

@@ -41,4 +41,12 @@ public class ProductService {
                 .build();
     }
 
+    // tìm kiếm sản phảm theo tên
+    public List<ProductResponse> searchProduct(String productName) {
+        List<Product> products = productRepository.findByNameContainingIgnoreCase(productName);// trả về danh sách Product
+        return products.stream()
+                .map(productMapper::toProductResponse) //chuyển từng Product thành ProductResponse
+                .collect(Collectors.toList()); // gom lại thành một List<ProductResponse> để trả về
+    }
+
 }

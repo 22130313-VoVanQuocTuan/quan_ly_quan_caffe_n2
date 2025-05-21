@@ -48,6 +48,14 @@ public class ProductService {
                 .build();
     }
 
+
+    // tìm kiếm sản phảm theo tên
+    public List<ProductResponse> searchProduct(String productName) {
+        List<Product> products = productRepository.findByNameContainingIgnoreCase(productName);// trả về danh sách Product
+        return products.stream()
+                .map(productMapper::toProductResponse) //chuyển từng Product thành ProductResponse
+                .collect(Collectors.toList()); // gom lại thành một List<ProductResponse> để trả về
+
     // 5.1.1.11.1.Thực hiện phương thức addProduct(ProductCreateRequest request) ở phần product service để có thể lưu xuống database
     public void addProduct(ProductCreateRequest request) {
         Product product = Product.builder().

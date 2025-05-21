@@ -9,3 +9,11 @@ export const checkProduct = async (productId)=>{
         //1.2.5.1.2 ProductAPI nhận dữ liệu và truyền đến giao diện menu.
         return response.data;  
 }
+
+//Tìm kiếm sản phẩm
+export const searchProduct = async (name) => {
+    const response = await axiosInstance.get(`/products/search`, {
+        params: { name }
+    });
+    return response.data;
+}

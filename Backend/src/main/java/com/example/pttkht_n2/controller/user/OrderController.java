@@ -81,5 +81,25 @@ public class OrderController {
         }
 
     }
+    //Bỏ món ra khỏi thực đơn
+    @DeleteMapping("/{productId}")
+    APIResponse<String> deleteOrderItem(HttpSession session, @PathVariable int productId) {
+        String result = orderService.deleteProductOnOrder(session, productId);
 
+        return APIResponse.<String>builder()
+                .data(result)
+                .build();
+
+    }
+
+    //Bỏ món ra khỏi thực đơn
+    @DeleteMapping()
+    APIResponse<String> deleteOrder(HttpSession session) {
+        String result = orderService.deleteOrder(session);
+
+        return APIResponse.<String>builder()
+                .data(result)
+                .build();
+
+    }
 }

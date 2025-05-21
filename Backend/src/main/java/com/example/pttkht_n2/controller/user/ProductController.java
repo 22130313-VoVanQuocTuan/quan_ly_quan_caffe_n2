@@ -36,6 +36,13 @@ public class ProductController {
         return APIResponse.<ProductQuantityResponse>builder().data(productQuantityResponses).build();
     }
 
+
+    @GetMapping("/search")
+    APIResponse<List<ProductResponse>> searchProduct(@RequestParam("name") String productName) {
+        List<ProductResponse> productResponseList = productService.searchProduct(productName);
+        return APIResponse.<List<ProductResponse>>builder().data(productResponseList).build();
+    }
+
     //5.1.1.11 Thưc hiện thêm món ăn qua method addProduct(ProductCreateRequest request) trong ProductController (Backend).
     @PostMapping("/add-item")
     APIResponse<String> addProduct(@RequestBody ProductCreateRequest request) {
@@ -44,6 +51,7 @@ public class ProductController {
         productService.addProduct(request);
         return APIResponse.<String>builder().msg("Thêm sản phẩm thành công").build();
     }
+
 
 
 

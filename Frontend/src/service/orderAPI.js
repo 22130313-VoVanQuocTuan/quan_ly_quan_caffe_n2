@@ -52,3 +52,31 @@ export const confirmCreateMenu = async (totalPrice) => {
     return response.data;
 
 };
+//Bỏ món khỏi thực đơn
+export const confirmDelete = async (productId) => {
+  try {
+    const response = await axiosInstance.delete(`/orders/${productId}`);
+    if (response.data !== null) {
+      alert(response.data.data);
+     }
+    return response.data;
+  } catch (error) {
+    console.error("Xoá món thất bại:", error);
+    alert("Xoá món thất bại");
+    return null;
+  }
+};
+//Xóa thực đơn 
+export const confirmDeleteOrder = async () => {
+  try {
+    const response = await axiosInstance.delete(`/orders`);
+    if (response.data !== null) {
+      alert(response.data.data);
+     }
+    return response.data;
+  } catch (error) {
+    console.error("Xoá thực đơn thất bại:", error);
+    alert("Xoá thực đơn thất bại");
+    return null;
+  }
+};

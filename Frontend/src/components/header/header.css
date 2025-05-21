@@ -1,40 +1,152 @@
+/* Header chính */
 .header {
-   
-    display: flex;
-    background: #662C21;
-    
+  display: flex;
+  background: #662C21;
+  padding: 0.3rem 0.8rem; /* Giảm padding so với 0.5rem 1rem */
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
 }
-.head{
-     display: flex;
-     list-style: none;
-     gap: 69px;
+
+/* Danh sách menu */
+.head {
+  display: flex;
+  list-style: none;
+  gap: 0.6rem; /* Giảm gap từ 1rem */
+  margin: 0;
+  padding: 0;
+  align-items: center;
 }
+
+/* Hình ảnh trong header */
 .header img {
-    width: 30px;
-    height: 28px;
+  width: 20px; /* Giảm từ 24px */
+  height: 18px; /* Giảm từ 22px */
 }
+
+/* Button trong header */
 .header button {
-    display: flex;
-    gap: 10px;
-    cursor: pointer;
-    color: #FFFFFF;
-    align-items: center;
-    background: none;
-    border: none;
+  display: flex;
+  gap: 0.3rem; /* Giảm gap từ 0.5rem */
+  cursor: pointer;
+  color: #FFFFFF;
+  align-items: center;
+  background: none;
+  border: none;
+  font-size: 0.8rem; /* Giảm từ 0.9rem */
+  padding: 0.3rem; /* Giảm padding */
 }
+
+/* Các mục trong danh sách */
 .head li {
-    list-style: none;
-    color: white;
-    cursor: pointer;
-    display: flex;
-    border-radius: 5px;
-    transition: 0.3s;
-    padding: 4px 6px;
+  list-style: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 4px; /* Giảm từ 5px cho nhỏ gọn */
+  transition: all 0.3s ease;
+  padding: 0.2rem 0.4rem; /* Giảm từ 0.25rem 0.5rem */
+}
+
+/* Trạng thái active */
+.head li.active {
+  background-color: white;
+  color: black;
+}
+
+.head li.active button {
+  color: black;
+}
+
+/* Media query cho màn hình rất nhỏ (dưới 480px, như điện thoại nhỏ) */
+@media (max-width: 480px) {
+  .header {
+    padding: 0.2rem 0.5rem; /* Giảm padding hơn nữa */
+    flex-direction: column; /* Xếp dọc để tiết kiệm không gian */
+    align-items: flex-start;
   }
-  .head li.active {
-    background-color: white;
-    color: black;
+
+  .head {
+    gap: 0.4rem; /* Giảm gap từ 0.5rem */
+    flex-wrap: wrap;
+    justify-content: center;
   }
-  .head li.active button {
-    color: black;
+
+  .header img {
+    width: 16px; /* Giảm từ 20px */
+    height: 14px; /* Giảm từ 18px */
   }
+
+  .header button {
+    font-size: 0.7rem; /* Giảm từ 0.8rem */
+    padding: 0.2rem;
+  }
+
+  .head li {
+    padding: 0.15rem 0.3rem; /* Giảm padding */
+  }
+}
+
+/* Media query cho tablet (768px trở lên) */
+@media (min-width: 768px) {
+  .header {
+    padding: 0.4rem 1rem; /* Giảm từ 1rem 1.5rem */
+    flex-direction: row;
+  }
+
+  .head {
+    gap: 1rem; /* Giảm từ 2rem */
+  }
+
+  .header img {
+    width: 24px; /* Giảm từ 28px */
+    height: 22px; /* Giảm từ 26px */
+  }
+
+  .header button {
+    font-size: 0.9rem; /* Giảm từ 1rem */
+    padding: 0.4rem 0.6rem;
+  }
+
+  .head li {
+    padding: 0.3rem 0.6rem; /* Giảm từ 0.4rem 0.75rem */
+  }
+}
+
+/* Media query cho desktop (1024px trở lên) */
+@media (min-width: 1024px) {
+  .header {
+    padding: 0.5rem 1.5rem; /* Giảm từ 1rem 2rem */
+  }
+
+  .head {
+    gap: 1.5rem; /* Giảm từ 3rem */
+  }
+
+  .header img {
+    width: 26px; /* Giảm từ 30px */
+    height: 24px; /* Giảm từ 28px */
+  }
+
+  .header button {
+    font-size: 1rem; /* Giảm từ 1.1rem */
+    padding: 0.4rem 0.8rem;
+  }
+
+  .head li {
+    padding: 0.3rem 0.8rem;
+  }
+}
+
+/* Media query cho màn hình lớn (1440px trở lên, như ultrawide) */
+@media (min-width: 1440px) {
+  .header {
+    padding: 0.6rem 2rem; /* Giảm từ 1.5rem 2.5rem */
+  }
+
+  .head {
+    gap: 2rem; /* Giảm từ 3.5rem */
+  }
+}

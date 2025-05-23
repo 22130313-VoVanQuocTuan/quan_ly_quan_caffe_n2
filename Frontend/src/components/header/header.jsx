@@ -13,6 +13,7 @@ const Header = () => {
   useEffect(() => {
     const path = location.pathname;
     if (path === '/') setActive('home');
+    // 5.1.1.2. Admin chọn menu trên phần header
     else if (path === '/menu') setActive('menu');
     else if (path === '/order') setActive('order');
     else if (path === '/stock') setActive('stock');

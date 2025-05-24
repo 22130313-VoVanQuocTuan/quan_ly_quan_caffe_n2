@@ -48,7 +48,9 @@ const Header = () => {
         <li className={active === 'staff' ? 'active' : ''} onClick={() => setActive('staff')}>
           <button><img src={staff} alt="staff" /> Nhân viên</button>
         </li>
-        <li className={active === 'doanhthu' ? 'active' : ''} onClick={() => setActive('doanhthu')}>
+            {/*2.5.1.1. họn chức năng "Báo cáo doanh thu" trên thanh menu hoặc từ màn hình dashboard.*/}
+            {/*2.5.1.2. Hệ thống chuyển hướng đến giao diện báo cáo doanh thu*/}
+        <li className={active === 'doanhthu' ? 'active' : ''} onClick={() => {setActive('doanhthu'); navigate('/doanhthu');}}>
           <button><img src={doanhthu} alt="doanhthu" /> Doanh thu</button>
         </li>
         <li className={active === 'bep' ? 'active' : ''} onClick={() => setActive('bep')}>

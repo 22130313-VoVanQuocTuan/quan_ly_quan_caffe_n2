@@ -19,7 +19,8 @@ public class SecurityConfig {
     private final String[] PUBLIC_POST_ENDPOINTS = {
             "/user/**",
             "/orders/**",
-            "/products/**"
+            "/products/**",
+            "/revenue/**"
     };
 
     @Bean

@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -23,7 +24,7 @@ public class Order {
     @JoinColumn(name = "userId") // cột user_id làm khóa ngoại
     User user;
     double totalPrice;
-    Timestamp createAt;
+    LocalDate createAt;
     String status;
     String status_payment;
 

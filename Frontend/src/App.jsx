@@ -10,31 +10,31 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
-  return (
-    <Router>
-      <>
-        <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/menu" element={<Menu />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/add-item" element={<AddItem />} />
-        </Routes>
-        {/* Toast container để hiển thị thông báo toast */}
-        <ToastContainer 
-          position="top-right" 
-          autoClose={3000} 
-          hideProgressBar={false} 
-          newestOnTop={false} 
-          closeOnClick 
-          rtl={false} 
-          pauseOnFocusLoss 
-          draggable 
-          pauseOnHover
-        />
-      </>
-    </Router>
-  );
+    return (
+        <Router>
+            <>
+                <Routes>
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/menu" element={<Menu />} />
+                    <Route path="/" element={<Home />} />
+                    <Route path="/add-item" element={<AddItem />} />
+                </Routes>
+                {/* Toast container để hiển thị thông báo toast */}
+                <ToastContainer
+                    position="top-right"
+                    autoClose={3000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
+            </>
+        </Router>
+    );
 };
 
 export default App;

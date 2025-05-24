@@ -37,6 +37,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll() // Allow /user POST without auth
                         .requestMatchers(HttpMethod.GET, PUBLIC_POST_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.PUT, PUBLIC_POST_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.DELETE, PUBLIC_POST_ENDPOINTS).permitAll()
                         .anyRequest().authenticated() // Other requests require authentication
                 )
                 .build();
@@ -45,7 +46,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5174"));
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:5174",    // cho dev máy thật
+                "https://enjoyed-molly-smoothly.ngrok-free.app"      // cho container frontend
+        ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); // Cho phép tất cả các phương thức HTTP
         configuration.setAllowedHeaders(Arrays.asList("*")); // Cho phép tất cả các tiêu đề
         configuration.setAllowCredentials(true); // Cho phép gửi cookie hoặc thông tin xác thực nếu cần
@@ -54,4 +58,4 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration); // Áp dụng cho tất cả các endpoint
         return source;
     }
-}
+    }

@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const  axiosInstance  = axios.create({
-  baseURL: 'http://localhost:8080/n2', 
+  baseURL: '/n2', // Proxy sẽ xử lý chuyển hướng đến backend
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

@@ -1,238 +1,560 @@
-.body{
-    background: #DDBEA9;
-    display: flex;
-    height: auto;
+/* Body chính */
+.body {
+  background: #DDBEA9;
+  display: flex;
+  flex-direction: column; /* Xếp dọc trên mobile */
+  min-height: 100vh; /* Đảm bảo body chiếm toàn bộ chiều cao */
+  box-sizing: border-box;
+  padding: 0.5rem; /* Thêm padding nhỏ */
 }
-.left{
-    width: 50%;
+
+/* Phần bên trái */
+.left {
+  width: 100%; /* Chiếm toàn bộ chiều rộng trên mobile */
 }
+
+/* Tiêu đề Coffee */
 .left .coffe {
-    background: white;
-    margin-top: 10px;
-    text-align: center;
-    padding: 10px;
-    margin-left: 5px;
-    
+  background: white;
+  margin-top: 0.5rem;
+  text-align: center;
+  padding: 0.5rem;
+  margin-left: 0; /* Loại bỏ margin-left để căn đều */
+  border-radius: 4px;
 }
-.left .search{
-display: flex;   
-margin-top: 10px;
-justify-content: center;
 
+/* Thanh tìm kiếm */
+.left .search {
+  display: flex;
+  margin-top: 0.5rem;
+  justify-content: center;
 }
+
 .input-container {
-    position: relative;
-    width: 70%;
-  }
-  
-  .input-container .search-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-    opacity: 0.6;
-  }
+  position: relative;
+  width: 90%; /* Giảm chiều rộng để tránh tràn */
+  max-width: 400px; /* Giới hạn chiều rộng tối đa */
+}
+
+.input-container .search-icon {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px; /* Giảm kích thước icon */
+  height: 16px;
+  opacity: 0.6;
+}
+
 .input-container input {
-   
-    width: 100%;
-    padding: 10px 40px 10px 10px; /* chừa chỗ bên phải cho icon */
-    border-radius: 5px;
-    border: 1px solid #ccc;
+  width: 100%;
+  padding: 0.5rem 2rem 0.5rem 0.5rem; /* Giảm padding */
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem; /* Font nhỏ hơn */
+}
+
+/* Danh sách sản phẩm */
+.listP {
+  margin-top: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr; /* 1 cột trên mobile */
+  gap: 0.5rem; /* Giảm gap */
+}
+
+.item {
+  background: #FFFFFF;
+  margin-left: 0;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.item img {
+  width: 100%;
+  height: 600px; /* Đảm bảo tỷ lệ hình ảnh */
+  max-height: 150px; /* Giới hạn chiều cao */
+  object-fit: cover;
+}
+
+.footer {
+  justify-content: center;
+  display: flex;
+  gap: 1rem; /* Giảm từ 30px */
+  padding: 0.5rem;
+  font-weight: bold;
+  font-size: 0.9rem; /* Font nhỏ hơn */
+}
+
+/* Phần bên phải */
+.right {
+  margin-left: 0; /* Loại bỏ margin-left trên mobile */
+  margin-top: 0.5rem;
+  width: 100%; /* Chiếm toàn bộ chiều rộng */
+}
+
+/* Đầu phần bên phải */
+.head1 {
+  display: flex;
+  gap: 1rem; /* Giảm từ 270px */
+  align-items: center;
+  flex-wrap: wrap; /* Cho phép xuống dòng */
+}
+
+.person {
+  gap: 0.3rem;
+  display: flex;
+  align-items: center;
+}
+
+.person label {
+  font-weight: bold;
+  font-size: 0.9rem; /* Font nhỏ hơn */
+  width: auto; /* Bỏ width cố định */
+}
+
+.head1 img {
+  width: 16px; /* Giảm từ 20px */
+  height: 16px;
+}
+
+/* Phần content2 */
+.content2 {
+  display: flex;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+#ban {
+  width: 100%; /* Toàn bộ chiều rộng trên mobile */
+  max-width: 200px;
+  padding: 0.5rem;
+  border-radius: 10px;
+  border: none;
+  font-size: 0.9rem;
+}
+
+.number {
+  margin-left: 0.5rem;
+  position: relative;
+  padding: 0.5rem 1rem;
+  background: white;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+}
+
+.number label {
+  font-size: 0.8rem; /* Giảm từ 10px */
+  position: absolute;
+  right: 0.5rem;
+  top: 0.2rem;
+}
+
+.number img {
+  width: 16px; /* Giảm từ 20px */
+  height: 16px;
+}
+
+/* Bảng danh sách món */
+.content3 table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+.content3 th,
+.content3 td {
+  border: 1px solid #ddd;
+  padding: 0.5rem; /* Giảm từ 12px */
+  text-align: center;
+  font-size: 0.9rem; /* Font nhỏ hơn */
+}
+
+.content3 th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  color: #333;
+}
+
+.content3 tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.content3 tr:hover {
+  background-color: #e6f7ff;
+  cursor: pointer;
+}
+
+/* Tổng tiền */
+.total {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem; /* Giảm từ 20% */
+  font-weight: bold;
+  background: #FFFFFF;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+}
+
+#price {
+  margin-right: 1rem; /* Giảm từ 75px */
+}
+
+/* Content4 */
+.content4 {
+  display: flex;
+  margin-top: 0.5rem;
+  gap: 1rem; /* Giảm từ 199px */
+  flex-wrap: wrap;
+}
+
+.content4 img {
+  width: 16px; /* Giảm từ 20px */
+  height: 16px;
+}
+
+.section1,
+.section2 {
+  display: flex;
+  gap: 0.5rem; /* Giảm từ 20px */
+}
+
+.create,
+.confirm {
+  background: #662C21;
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem 0.8rem; /* Giảm padding */
+  font-size: 0.9rem;
+}
+
+.send,
+.close {
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem 0.8rem; /* Giảm từ 5px 15px */
+  font-size: 0.9rem;
+}
+
+.close label {
+  color: #e93b18;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  padding: 0.5rem;
+  text-align: center;
+  width: 80%; /* Giảm từ 30% để phù hợp mobile */
+  max-width: 300px; /* Giới hạn chiều rộng tối đa */
+  height: auto;
+  position: fixed; /* Đổi sang fixed để cố định trên màn hình */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Căn giữa */
+  background: #d4a276b0;
+  border: 1px solid #333;
+  border-radius: 4px;
+  z-index: 1000; /* Đảm bảo modal nằm trên cùng */
+}
+
+.modal label {
+  font-weight: bold;
+  font-size: 0.9rem; /* Font nhỏ hơn */
+}
+
+.modal input {
+  margin-top: 0.5rem;
+  width: 80%; /* Giảm từ 50% */
+  padding: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.modal .bt {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.modal .bt button {
+  margin-left: 0;
+  padding: 0.4rem 0.8rem; /* Giảm từ 5px 10px */
+  background: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.addP button {
+  padding: 0.5rem 1rem; /* Giảm từ 15px 30px */
+  background: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+/* Media query cho tablet (768px trở lên) */
+@media (min-width: 768px) {
+  .body {
+    flex-direction: row; /* Chuyển sang hàng */
+    padding: 1rem;
   }
 
+  .left {
+    width: 50%; /* Khôi phục 50% chiều rộng */
+  }
+
+  .right {
+    margin-left: 1rem;
+    width: 50%;
+  }
 
   .listP {
-    
-    margin-top: 10px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Tạo 3 cột có độ rộng bằng nhau */
-    gap: 10px; /* Khoảng cách giữa các phần tử */
-}
-.item {
-    background: #FFFFFF;
-    margin-left: 5px;
-    text-align: center;
-    border: 1px solid #ddd;
-    width: 100%;
-    
-    cursor: pointer;
+    grid-template-columns: repeat(2, 1fr); /* 2 cột trên tablet */
+    gap: 0.75rem;
+  }
 
+  .coffe {
+    padding: 0.75rem;
+  }
 
-}
+  .input-container {
+    width: 70%;
+  }
 
-.item img{
-    width: 100%;
-    height: 80%;
-    
-}
-.footer{
-    justify-content: center;
-    display: flex;
-    gap: 30px;
-    padding: 10px;
-    font-weight: bold;
-}
+  .input-container input {
+    padding: 0.6rem 2.5rem 0.6rem 0.6rem;
+    font-size: 1rem;
+  }
 
-.right{
-    margin-left: 20px;
-    margin-top: 10px;
-   
-}.head1{
-    display: flex;
-    gap: 270px;
-}
-.person{
-    gap: 5px;
-    display: flex;
+  .input-container .search-icon {
+    width: 18px;
+    height: 18px;
+  }
 
+  .item img {
+    max-height: 200px;
+  }
 
-}
-.person label{
-    font-weight: bold;
-   width: 135px;
-}
-.head1 img{
-    width: 20px;
-    height: 20px;
-}
-.content2{
-    display: flex;
-    margin-top: 10px;
-}
-#ban{
+  .footer {
+    gap: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .head1 {
+    gap: 2rem;
+  }
+
+  .person label {
+    font-size: 1rem;
+  }
+
+  .head1 img,
+  .number img,
+  .content4 img {
+    width: 18px;
+    height: 18px;
+  }
+
+  #ban {
     width: 40%;
-    padding: 10px;
-    border-radius: 20px ;
-    border: none;
-    
+    padding: 0.6rem;
+  }
+
+  .number {
+    padding: 0.6rem 1.2rem;
+  }
+
+  .number label {
+    font-size: 0.9rem;
+  }
+
+  .content3 th,
+  .content3 td {
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .total {
+    gap: 2rem;
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+
+  #price {
+    margin-right: 2rem;
+  }
+
+  .content4 {
+    gap: 2rem;
+  }
+
+  .section1,
+  .section2 {
+    gap: 0.75rem;
+  }
+
+  .create,
+  .confirm,
+  .send,
+  .close,
+  .addP button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+
+  .modal {
+    width: 50%;
+    max-width: 400px;
+    padding: 0.75rem;
+  }
+
+  .modal label {
+    font-size: 1rem;
+  }
+
+  .modal input {
+    width: 70%;
+    padding: 0.5rem;
+  }
+
+  .modal .bt button {
+    padding: 0.5rem 1rem;
+  }
 }
-.number{
-    margin-left: 10px;
-    position: relative;;
-    padding: 10px 20px;
-    background: white;
-    border-radius: 50px;
-    display: flex;
-}.number label{
-    font-size: 10px;
-    position: absolute;
-    right: 10px;
-    top: 3px;
-}
-.number img{
+
+/* Media query cho desktop (1024px trở lên) */
+@media (min-width: 1024px) {
+  .body {
+    padding: 1.5rem;
+  }
+
+  .listP {
+    grid-template-columns: repeat(3, 1fr); /* 3 cột như gốc */
+    gap: 1rem;
+  }
+
+  .coffe {
+    padding: 1rem;
+  }
+
+  .input-container {
+    width: 60%;
+  }
+
+  .input-container input {
+    padding: 0.75rem 3rem 0.75rem 0.75rem;
+    font-size: 1.1rem;
+  }
+
+  .input-container .search-icon {
     width: 20px;
     height: 20px;
-}
+  }
 
-.content3 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
+  .item img {
+    max-height: 250px;
   }
-  
-  .content3 th, .content3 td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: center;
+
+  .footer {
+    gap: 2rem;
+    font-size: 1.1rem;
   }
-  
-  .content3 th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-    color: #333;
+
+  .head1 {
+    gap: 3rem; /* Giảm từ 270px */
   }
-  
-  .content3 tr:nth-child(even) {
-    background-color: #f9f9f9;
+
+  .person label {
+    font-size: 1.1rem;
   }
-  
-  .content3 tr:hover {
-    background-color: #e6f7ff;
-    cursor: pointer;
-  }
-  .total{
-    
-    display: flex;
-   justify-content: end;
-     gap: 20%;
-    font-weight: bold;
-    background: #FFFFFF;
-    
-  }
-  #price{
-    margin-right: 75px;
-  }
-  .content4{
-    display: flex;
-    margin-top: 10px;
-    gap: 199px;
-  }
-  .content4 img{
+
+  .head1 img,
+  .number img,
+  .content4 img {
     width: 20px;
     height: 20px;
   }
-  .section1{
-    display: flex;
-    gap: 20px;
-  }
-  .section2{
-    display: flex;
-    gap: 20px;
-  }
-  .create, .confirm {
-    background: #662C21;
-    color: #FFFFFF;
-    border: none;
-    cursor: pointer;
-  }
-  .send, .close{
-    border: none;
-    cursor: pointer;
-    padding: 5px 15px;
-  }
-  .close label{
-    color: #e93b18;
+
+  #ban {
+    padding: 0.75rem;
   }
 
+  .number {
+    padding: 0.75rem 1.5rem;
+  }
 
-  .modal{
-    display: none;
-    padding: 10px;
-    text-align: center;
-    width: 30%;
-    height: auto;
-    position: absolute;
-    top: 35%;
-    left: 10%;
-    background: #d4a276b0;
-    border: 1px solid #333;
+  .number label {
+    font-size: 1rem;
   }
-  .modal label{
-    font-weight: bold;
-    
+
+  .content3 th,
+  .content3 td {
+    padding: 1rem;
+    font-size: 1.1rem;
   }
-  .modal input{
-    margin-top: 10px;
+
+  .total {
+    gap: 3rem;
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .content4 {
+    gap: 3rem; /* Giảm từ 199px */
+  }
+
+  .section1,
+  .section2 {
+    gap: 1rem;
+  }
+
+  .create,
+  .confirm,
+  .send,
+  .close,
+  .addP button {
+    padding: 0.6rem 1.2rem;
+    font-size: 1.1rem;
+  }
+
+  .modal {
+    width: 40%;
+    max-width: 500px;
+    padding: 1rem;
+  }
+
+  .modal input {
+    width: 60%;
+    padding: 0.6rem;
+  }
+
+  .modal .bt button {
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+/* Media query cho màn hình lớn (1440px trở lên) */
+@media (min-width: 1440px) {
+  .body {
+    padding: 2rem;
+  }
+
+  .listP {
+    gap: 1.5rem;
+  }
+
+  .input-container {
     width: 50%;
   }
-  .modal .bt{
-      margin-top: 10px;
-    
-  }  .modal .bt button{
-    margin-left: 15px;
-    padding: 5px 10px;
-    background: #FFFFFF;
-    border: none;
-    cursor: pointer;
 
+  .modal {
+    width: 30%;
+    max-width: 600px;
   }
-  .addP button{
-      padding: 15px 30px;
-      background: #FFFFFF;
-      border: none;
-      cursor: pointer;
-  }
-
-  
+}

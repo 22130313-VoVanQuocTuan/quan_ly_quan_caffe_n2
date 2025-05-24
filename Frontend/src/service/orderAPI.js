@@ -4,15 +4,13 @@ import axiosInstance from './axiosInstance';
 export const createOrder = async () => {
   try {
     const response = await axiosInstance.post(`/orders`);
-    return response.data;      //1.2.3.2 OrderAPI nhận dữ liệu và truyền đến giao diện menu.
+     //1.2.3.2 OrderAPI nhận dữ liệu và truyền đến giao diện menu.
+    return response.data;     
   } catch (error) {
-    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-      // Session không hợp lệ → Logout
-      handleLogout();
-    } else {
-      console.error("Lỗi tạo thực đơn:", error);
-    }
-    throw error;
+    if (error.response) {
+      //1.2.3.1.2.1 Giao diện menu bị đăng xuất nếu chưa đăng nhập (handleLogout())
+        handleLogout();
+    } 
   }
 };
 
@@ -25,9 +23,10 @@ const handleLogout = () => {
 };
 
 
-// Lấy danh sách các item trong thực đơn
+// 1.2.3.4 Hệ thống gọi API getOrderItem() để hiển thị món trong thực đơn khi có món đã được thêm vào thực đơn được định nghĩa trong orderAPI.
 export const getOrderItems = async () => {
   const response = await axiosInstance.get(`/orders`);
+  //1.2.3.4.2 OrderAPI nhận dữ liệu và truyền đến giao diện menu.
   return response.data;
 }
 
@@ -38,21 +37,46 @@ export const addItemToOrder = async (productId, quantity, price) => {
     productId: productId,
     quantity: quantity, // Số lượng nhập từ người dùng
     price: price
-  }; try {
+  };
     const response = await axiosInstance.post('/orders/order-items', data);
     return response.data; // 1.2.7.1.2 OrderAPI nhận dữ liệu và truyền đến giao diện menu.
-  } catch (error) {
-    console.error("Error adding item to order:", error);
-    return null;
-  }
+  
 };
 
 
 export const confirmCreateMenu = async (totalPrice) => {
-  try {
+    const response = await axiosInstance.put(`/orders`, {
+        totalPrice: totalPrice
+    });
     //1.2.10.1.2 Truyền dữ liệu cho menu 
     return response.data;
+
+};
+//Bỏ món khỏi thực đơn
+export const confirmDelete = async (productId) => {
+  try {
+    const response = await axiosInstance.delete(`/orders/${productId}`);
+    if (response.data !== null) {
+      alert(response.data.data);
+     }
+    return response.data;
   } catch (error) {
-    console.error("Lỗi khi xác nhận thực đơn");
+    console.error("Xoá món thất bại:", error);
+    alert("Xoá món thất bại");
+    return null;
+  }
+};
+//Xóa thực đơn 
+export const confirmDeleteOrder = async () => {
+  try {
+    const response = await axiosInstance.delete(`/orders`);
+    if (response.data !== null) {
+      alert(response.data.data);
+     }
+    return response.data;
+  } catch (error) {
+    console.error("Xoá thực đơn thất bại:", error);
+    alert("Xoá thực đơn thất bại");
+    return null;
   }
 };

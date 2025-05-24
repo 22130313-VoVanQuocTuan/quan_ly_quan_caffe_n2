@@ -1,44 +1,115 @@
+/* Container chính */
 .container {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding: 20px;
+  padding: 1rem; /* Giảm padding cho màn hình nhỏ */
 }
 
+/* Tiêu đề */
 h1 {
-  font-size: 2rem;
+  font-size: 1.5rem; /* Giảm font-size cho màn hình nhỏ */
   font-weight: bold;
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   color: #4a4a4a;
 }
 
+/* Grid layout */
 .grid {
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 1.5rem;
+  gap: 1rem; /* Giảm gap cho màn hình nhỏ */
 }
 
-@media (min-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
+/* Card styling */
 .card {
   background-color: white;
-  padding: 1rem;
+  padding: 0.75rem; /* Giảm padding cho màn hình nhỏ */
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s;
 }
+img{
+      width: 100%;
+    height: 100%;
+}
 
-.card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+/* Hover chỉ áp dụng trên thiết bị không cảm ứng */
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Media query cho màn hình rất nhỏ (dưới 480px, như điện thoại nhỏ) */
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem; /* Giảm padding hơn nữa */
+  }
+
+  h1 {
+    font-size: 1.25rem; /* Font nhỏ hơn cho màn hình nhỏ */
+    margin-bottom: 0.75rem;
+  }
+
+  .grid {
+    gap: 0.75rem; /* Giảm khoảng cách giữa các card */
+  }
+
+  .card {
+    padding: 0.5rem; /* Giảm padding trong card */
+  }
+}
+
+/* Media query cho tablet (768px trở lên) */
+@media (min-width: 768px) {
+  .container {
+    padding: 1.5rem; /* Tăng padding cho tablet */
+  }
+
+  h1 {
+    font-size: 1.75rem; /* Font lớn hơn một chút */
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+}
+
+/* Media query cho desktop (1024px trở lên) */
+@media (min-width: 1024px) {
+  .container {
+    padding: 2rem; /* Padding lớn hơn cho desktop */
+  }
+
+  h1 {
+    font-size: 2rem; /* Font size như ban đầu */
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+}
+
+/* Media query cho màn hình lớn (1440px trở lên, như ultrawide) */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1400px; /* Tăng max-width cho màn hình lớn */
+  }
+
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)); /* Thêm 4 cột cho màn hình lớn */
+    gap: 2rem;
+  }
 }

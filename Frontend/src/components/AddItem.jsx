@@ -75,18 +75,29 @@ const handleSubmit = async (e) => {
     try {
         let imageUrl = form.image;
 
-        // Nếu ảnh là file (user chọn file ảnh upload), thì upload lên Cloudinary
+        // If an image file is selected, upload it to Cloudinary
         if (form.image instanceof File) {
-            imageUrl = await uploadImage(form.image); // Trả về link ảnh
+            imageUrl = await uploadImage(form.image); // Get the Cloudinary URL
         }
 
-        // Gửi dữ liệu món ăn
+        // Prepare payload for addProduct
         await addProduct({ ...form, image: imageUrl });
 
         toast.success("Thêm món thành công!");
-        // Optionally reset form hoặc quay về trang trước
+        // Reset form or redirect as needed
+        setForm({
+            type: "drink",
+            name: "",
+            code: "",
+            price: "",
+            menuGroup: "",
+            quantity: "",
+            image: "",
+            ingredients: [{ ...initialIngredient }],
+        });
+        setImagePreview(null);
     } catch (error) {
-        console.error("Lỗi thêm món:", error);
+        console.error("Error adding product:", error);
         toast.error("Thêm món thất bại!");
     }
 };

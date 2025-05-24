@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -16,7 +17,7 @@ public class OrderResponse {
     int id;
     String username;
     double totalPrice;
-    Timestamp createAt;
+    LocalDate createAt;
     String status;
     List<OrderItem> orderItems;
 }

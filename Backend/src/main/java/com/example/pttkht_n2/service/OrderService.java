@@ -21,6 +21,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -57,7 +58,7 @@ public class OrderService {
         // Tạo đơn hàng
         Order order = Order.builder()
                 .user(user)
-                .createAt(new Timestamp(System.currentTimeMillis()))
+                .createAt(LocalDate.now())
                 .status("Chưa xác nhận")
                 .totalPrice(0.0)
                 .build();

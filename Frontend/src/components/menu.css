@@ -6,6 +6,7 @@
   min-height: 100vh; /* Đảm bảo body chiếm toàn bộ chiều cao */
   box-sizing: border-box;
   padding: 0.5rem; /* Thêm padding nhỏ */
+  margin-top: 0;
 }
 
 /* Phần bên trái */
@@ -86,12 +87,18 @@
   font-weight: bold;
   font-size: 0.9rem; /* Font nhỏ hơn */
 }
+.footer label{
+  color: #662c21;
+}
 
 /* Phần bên phải */
 .right {
   margin-left: 0; /* Loại bỏ margin-left trên mobile */
   margin-top: 0.5rem;
   width: 100%; /* Chiếm toàn bộ chiều rộng */
+}
+.send label{
+  color: #662C21;
 }
 
 /* Đầu phần bên phải */

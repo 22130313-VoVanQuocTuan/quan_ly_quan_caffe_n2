@@ -5,7 +5,7 @@ import { IoIosHelp } from "react-icons/io";
 import "./AddItem.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { addProduct } from "../service/foodApi";
+import { addProduct, uploadImage } from "../service/foodApi";
 
 // Thông số của các nguyên liệu
 const initialIngredient = { code: "", name: "", quantity: "", unit: "" };
@@ -19,6 +19,7 @@ const AddItem = () => {
         price: "",
         menuGroup: "",
         quantity: "",
+        image: "",
         ingredients: [{ ...initialIngredient }],
     });
 
@@ -68,16 +69,28 @@ const AddItem = () => {
 
     // Gửi dữ liệu và hiện toast
     // 5.1.1.10 Khi thành công sẽ trả về message "Thêm món thành công!" 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await addProduct(form);
-            toast.success("Thêm món thành công!");
-        } catch (error) {
-            console.error("Lỗi thêm món:", error);
-            toast.error("Thêm món thất bại!");
+const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+        let imageUrl = form.image;
+
+        // Nếu ảnh là file (user chọn file ảnh upload), thì upload lên Cloudinary
+        if (form.image instanceof File) {
+            imageUrl = await uploadImage(form.image); // Trả về link ảnh
         }
-    };
+
+        // Gửi dữ liệu món ăn
+        await addProduct({ ...form, image: imageUrl });
+
+        toast.success("Thêm món thành công!");
+        // Optionally reset form hoặc quay về trang trước
+    } catch (error) {
+        console.error("Lỗi thêm món:", error);
+        toast.error("Thêm món thất bại!");
+    }
+};
+
 
     // 
     return (
@@ -193,7 +206,7 @@ const AddItem = () => {
                             <span className="additem-image-placeholder">Chọn ảnh đại diện</span>
                         )}
                     </div>
-                    <input type="file" accept="image/*" onChange={handleImageChange} style={{ display: "none" }} id="image-upload" />
+                    <input type="file"id="image-upload"accept="image/*"onChange={handleImageChange} style={{ display: "none" }}/>
                     <div className="additem-image-actions">
                         <label htmlFor="image-upload">
                             <button type="button" className="additem-btn-image" onClick={handleImageClick}>Chọn ảnh</button>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from './header/header';
 import './Revenue.css';
-import instandURL from '../service/apiConfig';
+import instanceURL from '../service/apiConfig';
 
 const Revenue = () => {
     const [startDate, setStartDate] = useState('');
@@ -10,40 +10,46 @@ const Revenue = () => {
     const [showReport, setShowReport] = useState(false);
     const [dateError, setDateError] = useState('');
 
-    // 2.5.1.5. Giao diện gửi yêu cầu đến Controller
+
     const fetchRevenue = async () => {
+        // 2.5.1.5. Giao diện kiểm tra dữ liệu đầu vào
+        //Ngày bắt đầu và ngày kết thúc hợp lệ.
         if (!startDate || !endDate) {
             setDateError('Vui lòng chọn đầy đủ ngày bắt đầu và ngày kết thúc hợp lệ.');
             setShowReport(false);
             return;
         }
-
-        if (startDate > endDate) {
+        //Ngày bắt đầu ≤ ngày kết thúc.
+        if (new Date(startDate) > new Date(endDate)) {
             setDateError('Ngày bắt đầu phải trước hoặc bằng ngày kết thúc.');
             setShowReport(false);
             return;
         }
 
-        setDateError('');
 
+        setDateError('');
+        // 2.5.1.6. Giao diện gửi yêu cầu đến Controller
         try {
             const res = await fetch(
-                `${instandURL}/revenue/get-revenue-by-date?start=${encodeURIComponent(startDate)}&end=${encodeURIComponent(endDate)}`
+                `${instanceURL}/revenue/get-revenue-by-date?start=${encodeURIComponent(startDate)}&end=${encodeURIComponent(endDate)}`
             );
-            if (res.status === 204) {
+
+            if (res.status === 204 || res.status === 200 && !(res.headers.get("content-type")?.includes("application/json"))) {
                 setRevenues([]);
                 setShowReport(true);
                 return;
             }
+
             const data = await res.json();
             setRevenues(data);
             setShowReport(true);
-            console.log(startDate, endDate, data);
         } catch (err) {
+            //Nếu không hợp lệ, trả về lỗi cho người dùng
             console.error('Lỗi fetch doanh thu:', err);
+            setDateError('Đã xảy ra lỗi khi lấy dữ liệu doanh thu. Vui lòng nhập lại ngày.');
         }
     };
-
+    // 2.5.1.12. Giao diện tính toán
     const totalRevenue = revenues.reduce((sum, r) => sum + r.revenue, 0);
     const totalOrders = revenues.reduce((sum, r) => sum + r.numberOfOrder, 0);
     const averagePerOrder = totalOrders > 0 ? totalRevenue / totalOrders : 0;
@@ -91,8 +97,7 @@ const Revenue = () => {
                         </div>
                     </div>
                 </div>
-                {/*2.5.1.12. Controller trả dữ liệu cho giao diện*/}
-                {/*2.5.1.13. Giao diện hiển thị báo cáo một cách trực quan*/}
+                {/*2.5.1.12. Hiển thị báo cáo một cách trực quan, dễ theo dõi*/}
                 {showReport && (
                     <div className="bg-white rounded-lg shadow-md overflow-hidden">
                         <div className="revenue-report-header">

@@ -15,8 +15,9 @@ public class RevenueReportService {
     public RevenueReportService(ReportRevenueRepository repo) {
         this.repo = repo;
     }
-//    2.5.1.11. Service trả kết quả về Controller, dưới dạng một object hoặc JSON
+    //2.5.1.8.0.  Service gọi Repository truy vấn cơ sở dữ liệu, lọc tất cả đơn hàng đã thanh toán nằm trong khoảng thời gian chỉ định.
     public List<Order> findByCreateAtBetween(LocalDate start, LocalDate end) {
+    //2.5.1.10. Service trả kết quả về Controller, dưới dạng một object
         return repo.findByCreateAtBetween(start, end);
     }
 

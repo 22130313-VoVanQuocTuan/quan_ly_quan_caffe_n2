@@ -5,7 +5,7 @@ import Login from './components/Login';
 import Menu from './components/Menu';
 import Home from './components/Home';
 import AddItem from './components/AddItem';
-
+import Revenue from './components/Revenue'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -19,6 +19,7 @@ const App = () => {
                     <Route path="/menu" element={<Menu />} />
                     <Route path="/" element={<Home />} />
                     <Route path="/add-item" element={<AddItem />} />
+                    <Route path="/doanhthu" element={<Revenue />} />
                 </Routes>
                 {/* Toast container để hiển thị thông báo toast */}
                 <ToastContainer

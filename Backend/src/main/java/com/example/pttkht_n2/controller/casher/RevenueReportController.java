@@ -29,12 +29,13 @@ public class RevenueReportController {
                                                                     @RequestParam(name = "end") LocalDate end) {
         List<Order> orders = revenueReportService.findByCreateAtBetween(start, end);
         List<RevenueModel> revenueModels = getRevenueModelList(orders);
+//        2.5.1.11. trả dữ liệu cho giao diện
         if (!revenueModels.isEmpty()) {
             return ResponseEntity.ok(revenueModels);
         }
         return ResponseEntity.notFound().build();
     }
-    //Lấy ra danh sách RevenueModel từ danh sách Orders
+    //2.5.1.11. Controller xử lý
     public List<RevenueModel> getRevenueModelList(List<Order> orders) {
         Map<LocalDate, RevenueModel> map = new HashMap<>();
         for (Order order : orders) {

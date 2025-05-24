@@ -48,6 +48,7 @@ public class ProductController {
     APIResponse<String> addProduct(@RequestBody ProductCreateRequest request) {
         System.out.println("Tên món: " + request.getName());
         System.out.println("Nguyên liệu: " + request.getIngredients());
+        System.out.println("URL ảnh: " + request.getImageUrl()); // <-- thêm dòng này kiểm tra
         productService.addProduct(request);
         return APIResponse.<String>builder().msg("Thêm sản phẩm thành công").build();
     }

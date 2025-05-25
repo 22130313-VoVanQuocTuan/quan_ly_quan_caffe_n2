@@ -5,7 +5,9 @@ import com.example.pttkht_n2.dto.user.APIResponse;
 import com.example.pttkht_n2.dto.user.request.ProductCreateRequest;
 import com.example.pttkht_n2.dto.user.response.ProductQuantityResponse;
 import com.example.pttkht_n2.dto.user.response.ProductResponse;
+import com.example.pttkht_n2.dto.user.response.UserResponse;
 import com.example.pttkht_n2.service.ProductService;
+import jakarta.servlet.http.HttpSession;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -45,15 +47,15 @@ public class ProductController {
 
     //5.1.1.11 Thưc hiện thêm món ăn qua method addProduct(ProductCreateRequest request) trong ProductController (Backend).
     @PostMapping("/add-item")
-    APIResponse<String> addProduct(@RequestBody ProductCreateRequest request) {
+    APIResponse<String> addProduct(@RequestBody ProductCreateRequest request, HttpSession session) {
+        UserResponse userResponse = (UserResponse) session.getAttribute("userResponse");
+        if (userResponse == null || !"Admin".equals(userResponse.getRole())) {
+            throw new RuntimeException("Chỉ admin mới có quyền thêm món!");
+        }
         System.out.println("Tên món: " + request.getName());
         System.out.println("Nguyên liệu: " + request.getIngredients());
-        System.out.println("URL ảnh: " + request.getImageUrl()); // <-- thêm dòng này kiểm tra
+        System.out.println("URL ảnh: " + request.getImageUrl());
         productService.addProduct(request);
         return APIResponse.<String>builder().msg("Thêm sản phẩm thành công").build();
     }
-
-
-
-
 }

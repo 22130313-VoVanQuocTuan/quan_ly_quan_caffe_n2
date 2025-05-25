@@ -9,6 +9,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     //1.2.5.1.1.1.1.1 ProductRepository sử dụng phương thức findById(productId) từ JpaRepository để lấy dữ liệu Product ra.
    // Tìm kiếm theo tên
     List<Product> findByNameContainingIgnoreCase(String name);
-    //5.1.1.9.2.1.	Lớp productRepository sử dụng phương thức save(Product) từ JpaRepository để lưu thực thể Product vào cơ sở dữ liệu
+    //5.1.1.11.2.	Lớp productRepository sử dụng phương thức save(Product) từ JpaRepository để lưu thực thể Product vào cơ sở dữ liệu
 
 }

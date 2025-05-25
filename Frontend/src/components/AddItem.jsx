@@ -83,6 +83,7 @@ const handleSubmit = async (e) => {
         // Prepare payload for addProduct
         await addProduct({ ...form, image: imageUrl });
 
+        // 5.1.1.11.6. Hiển thị thông báo thành công
         toast.success("Thêm món thành công!");
         // Reset form or redirect as needed
         setForm({
@@ -97,13 +98,16 @@ const handleSubmit = async (e) => {
         });
         setImagePreview(null);
     } catch (error) {
+        // 5.1.2.1.1. Thiếu thông tin bắt buộc nhấn lưu thì sẽ trả về thông báo lỗi "Thêm món thất bại!"
         console.error("Error adding product:", error);
+        // 5.1.2.2.1. Hiển thị thông báo lỗi khi thêm món thất bại
         toast.error("Thêm món thất bại!");
     }
 };
 
 
-    // 
+   
+    // 5.1.1.7. Hệ thống trả về form nhập thông tin món ăn
     return (
         <div className="additem-container">
             <div className="header-item">
@@ -126,7 +130,7 @@ const handleSubmit = async (e) => {
                             </label>
                         </div>
                     </div>
-
+            {/* 5.1.1.8. Nhâp thông tin món (tên, mô tả, giá, hình ảnh, loại món,...) */}
                     <div className="additem-row additem-row-3col">
                         <div>
                             <label className="additem-label">Mã món <span className="text-danger">(*)</span></label>
@@ -229,7 +233,7 @@ const handleSubmit = async (e) => {
                     <div className="additem-image-note">Chọn các ảnh có định dạng (.jpg, .jpeg, .png, .webp)</div>
                 </div>
             </form>
-
+            {/* 5.1.1.9. Nhấn "Lưu" trên trang addItem gửi thông tin 5.1.1.8 đã nhập */}
             <div className="additem-footer">
                 <button type="submit" onClick={handleSubmit} className="additem-btn-save">
                     <FaRegSave /> Lưu

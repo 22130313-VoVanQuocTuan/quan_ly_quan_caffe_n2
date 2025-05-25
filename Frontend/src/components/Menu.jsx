@@ -306,11 +306,16 @@ const Menu = () => {
         {/* Phần bên phải: thông tin đơn hàng và người dùng */}
         <div className="right">
           <div className="head1">
-            <div className="addP">
-              {/* 5.1.1.4. Chọn nút Thêm món mới ở menu  */}
-              <button onClick={() => navigate("/add-item")}>Thêm món mới</button> {/* Nút thêm món mới */}
-            </div>
-            {/* Hiển thị thông tin người dùng */}
+            {/* Chỉ hiển thị nút "Thêm món mới" nếu người dùng là Admin */}
+            {userInfo?.data?.role === "Admin" && (
+              <div className="addP">
+                {/* 5.1.1.5. Chọn nút Thêm món mới ở menu  */}
+                {/* 5.1.1.6. hệ thống điều hướng tới AddItem */}
+                <button onClick={() => navigate("/add-item")}>
+                  Thêm món mới
+                </button>
+              </div>
+            )}
             <div className="person">
               <label htmlFor="">
                 {userInfo?.data?.username
@@ -320,7 +325,6 @@ const Menu = () => {
               <img src={person} alt="person" />
             </div>
           </div>
-
           {/* Bảng danh sách món trong đơn hàng */}
           {/*1.2.3.6 Giao diện menu hiển thị thực đơn vừa được tạo.*/}
           <div className="content3">

@@ -66,11 +66,12 @@ public class ProductService {
                 price(request.getPrice()).
                 category(request.getMenuGroup()).
                 quantity(request.getQuantity()).build(); // mặc định số lượng là 100
-        //5.1.1.9.2.	Lớp productRepository sẽ dung phương thức save(product) để lưu product vào database
+        //5.1.1.11.3.	Lớp productRepository sẽ dung phương thức save(product) để lưu product vào database
         productRepository.save(product);
 
-        // Lưu các nguyên liệu vào bảng ProductIngredient
 
+
+        // Lưu các nguyên liệu vào bảng ProductIngredient
         List<ProductIngredient> productIngredients = new ArrayList<>();
         for (IngredientsRequest ing : request.getIngredients()) {
             Ingredient ingredient = ingredientRepository.findByCode(ing.getCode())
@@ -84,7 +85,7 @@ public class ProductService {
             productIngredient.setIngredient(ingredient);
             productIngredient.setQuantity(ing.getQuantity());
             productIngredient.setUnit(ing.getUnit());
-
+            // 5.1.1.11.4. Lưu các nguyên liệu vào bảng ProductIngredient bằng
             productIngredients.add(productIngredient);
         }
 

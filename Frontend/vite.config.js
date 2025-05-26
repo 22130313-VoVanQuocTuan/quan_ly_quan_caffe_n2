@@ -13,7 +13,7 @@ export default defineConfig({
     ],
   proxy: {
       '/n2': {
-        target: 'http://localhost:8080', // Dùng tên dịch vụ Docker
+        target: 'http://backend:8080', // Dùng tên dịch vụ Docker
         changeOrigin: true,
         secure: false,  // thêm để tránh lỗi SSL nếu dùng https sai
       },
